@@ -1,14 +1,2 @@
 <?php
-
 $pageDataGlobal = new DataPage();
-
-
-
-
-
-
-
-
-
-
-

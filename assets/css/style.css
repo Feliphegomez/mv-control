@@ -1,0 +1,20 @@
+﻿body
+{
+	background-color: transparent !important;
+	width: calc(100vw);
+	height: calc(100vh);
+}
+
+.debugFooter
+{
+	font-family: Consolas, monaco, monospace;
+	color: white;
+	background-color: gray;
+    position: fixed;
+    left: 45%;
+    height: 50%;
+	min-height: 10px;
+    max-height: 100px;
+    bottom: 0;
+    width: 50%;
+}
