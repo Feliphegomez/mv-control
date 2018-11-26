@@ -1,5 +1,5 @@
 <?php
-session_start();
+#session_start();
 include('_cms/autoload.php');
 
 echo $pageDataGlobal->htmlRun();

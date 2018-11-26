@@ -1,4 +1,4 @@
-<?php 
-echo '<footer class="footer debugFooter">';
-	echo $this->debugEnable();
-echo '</footer>';
+<footer class="footer debugFooter">
+    <?php echo $this->debugEnable(); ?>
+    
+</footer>

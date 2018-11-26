@@ -106,9 +106,7 @@ body {
 }
 </style>
 
-
-
-
+<?php global $pageDataGlobal; ?>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -118,18 +116,34 @@ body {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Project name</a>
+      <a class="navbar-brand" href="/"><?php echo appTitleSmall; ?></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Help</a></li>
-      </ul>
-      <form class="navbar-form navbar-right">
+      <form class="navbar-form navbar-left">
         <input type="text" class="form-control" placeholder="Search...">
       </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle animated rubberBand" data-toggle="dropdown" aria-expanded="true">
+                <i class="fa fa-bell"></i> 
+                <span class="badge total-notifications-response-navbartop">0</span>
+            </a>
+            <ul class="dropdown-menu two question-pending-navbar">
+                <li class="dropdown-header">Notificaciones</li>
+                <li><a href="#"><i class="fa fa-spinner fa-spin" style="color:#000;"></i> Cargando</a></li>
+                <li><a href="#">No tienes notidficaciones pdtes.</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Ver todas las notificaciones</a></li>
+                
+            </ul>
+        </li>
+        
+        <li><a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $pageDataGlobal->session->username; ?></a></li>
+        <!--<li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Settings</a></li>-->
+        <li><a href="?logOut=true"><i class="fa fa-sign-out"></i> Salir</a></li>
+        <li><a href="#"><i class="fa fa-question"></i> Ayuda</a></li>
+        
+      </ul>
     </div>
   </div>
 </nav>

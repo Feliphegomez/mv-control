@@ -8,13 +8,11 @@
 .debugFooter
 {
 	font-family: Consolas, monaco, monospace;
-	color: white;
+    font-size: 0.7em;
 	background-color: gray;
+    overflow: auto;
     position: fixed;
-    left: 45%;
-    height: 50%;
 	min-height: 10px;
     max-height: 100px;
     bottom: 0;
-    width: 50%;
 }

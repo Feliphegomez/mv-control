@@ -75,6 +75,7 @@ class DataPage
 			{
                 $this->module = 'dashboard';
             };
+            
             if(isset($datosPagina[0]))
 			{
                 $this->page = $datosPagina[0];
@@ -113,10 +114,18 @@ class DataPage
         
         /* Detectar si hay o no sesion activa. */
         $this->session = new Session();
-        
         $session = $this->session;
-        if($session->error == true)
+        if($session->username != 'guest')
 		{
+            $this->messageGlobal = ('session iniciada');
+        }
+        else
+        {
+            $this->messageGlobal = "Por Favor, Ingresa al aplicativo.";
+            $this->module = 'login';
+            $this->page = 'index';
+            
+            
             /* Detectar si se debe iniciar sesion */
             if(
                 isset($this->fields['post']['loginNick'])
@@ -127,12 +136,14 @@ class DataPage
                 $pass = (string) $this->fields['post']['loginHash'];
                 $this->logIn($nick, $pass);
             }
-            else
-            {
-                $this->messageGlobal = "Por Favor, Ingresa al aplicativo.";
-                $this->module = 'login';
-                $this->page = 'index';
-            }
+        }
+        
+        /* Detectar si se debe cerrar sesion */
+        if(
+            isset($this->fields['get']['logOut'])
+        )
+        {
+            $this->logOut();
         }
     }
 	
@@ -143,7 +154,7 @@ class DataPage
 		echo "Usuario: {$username} <br>";
 		echo "Contraseña: {$hash} <br>";
 		$connect = new ConectionDB();
-		$connect->setSQL("Select A.id, A.username, A.hash, B.permissions, A.permission_id, B.name As permission_name From users A Left Join permissions B ON B.id = A.permission_id where username IN ('{$username}') and hash IN ('{$hash}') limit 1");
+		$connect->setSQL("Select A.id, A.username, A.hash, A.profile_id, B.permissions, A.permission_id, B.name As permission_name From users A Left Join permissions B ON B.id = A.permission_id where username IN ('{$username}') and hash IN ('{$hash}') limit 1");
         
         
 		$connect->executeSQL();
@@ -151,30 +162,44 @@ class DataPage
         {
             if($connect->dataCount === 1)
             {
-                $userSession = new stdClass();
-                $userSession->userid = $connect->data->id;
-                $userSession->username = $connect->data->username;
-                $userSession->hash = $connect->data->hash;
-                $userSession->permissions = json_decode($connect->data->permissions);
-                $userSession->permission_id = $connect->data->permission_id;
-                $userSession->permission_name = $connect->data->permission_name;
                 
                 $fecha = date_create();
-                $userSession->lastConnection = date_timestamp_get($fecha);
-                $userSession->lastIP = $this->getRealIpAddr();
+                $connect->data->lastConnection = date_timestamp_get($fecha);
+                $connect->data->lastIP = $this->getRealIpAddr();
+                
+                $userSession = new User();
+                $userSession->setData($connect->data);
                 
                 foreach($userSession As $k=>$v){
+                    $k = (string) $k;
+                    $v = ($v);
                     $_SESSION[$k] = $v;
                 }
                 
                 $this->messageGlobal = ("Datos Correctos" );
-                #exit(json_encode($userSession));
+                $this->module = 'dashboard';
+                $this->page = 'index';
+                header('Location: /');
             }else{
                 $this->messageGlobal = ("Datos Invalidos");
             }
-            echo (json_encode($connect));
         }
 	}
+    
+	/* Logout global */
+    function logOut()
+    {
+        // destroy session
+        session_unset();
+        $session = $_SESSION;
+        $_SESSION = array();
+        foreach($session As $k=>$v){
+            unset($_SESSION[$k]);
+        }
+        session_destroy();
+        header('Location: /');
+    }
+
     
     function getRealIpAddr()
     {
@@ -202,12 +227,16 @@ class DataPage
 	/* Funcion String/HTML Devuelve tabla  debug */
 	function debugEnable()
 	{
-		return '<table class="table table-responsive">'
-			.'<tr>'
-				.'<th>'.'pageDataGlobal'.'</th>'
-				.'<td>'.json_encode($this).'</td>'
-			.'</tr>'
-		.'</table>';
+           $htmlR = '<div class="table-responsive"><table class="table table-striped">';
+            foreach($this As $k=>$v)
+            {
+                $htmlR .= '<tr>';
+                    $htmlR .= '<th>'.$k.'</th>';
+                    $htmlR .= '<td>'.json_encode($v).'</td>';
+                $htmlR .= '</tr>';
+            }
+		$htmlR .= '</table></div>';
+        return $htmlR;
 	}
 	
 	function includePageActive()
@@ -257,11 +286,26 @@ class DataPage
 			.'<html lang="es">';
 				$this->includeFile("head.php");
 				echo '<body>';
-                    if($this->module != 'login'){
+                    if($this->module != 'login')
+                    {
                         $this->includeFile("top-menu.php");
+                        echo '<div class="container-fluid">';
+                        echo '<div class="row">';
+                            echo '<div class="col-sm-3 col-md-2 sidebar">';
+                                $this->includeFile("left-menu.php");
+                            echo '</div>';
+                            echo '<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">';
+                                $this->includePageActive();
+                                $this->includeFile("footer.php");
+                            echo '</div>';
+                          echo '</div>';
+                        echo '</div>';
                     }
-					$this->includePageActive();
-					$this->includeFile("footer.php");
+                    else
+                    {
+                        $this->includePageActive();
+                        $this->includeFile("footer.php");
+                    }
 					$this->includeFile("footer-scripts.php");
 					$this->includePageActiveFooterScripts();
 				echo '</body>'
@@ -295,25 +339,68 @@ class BaseGlobal
 	{
 		return json_encode($this, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
 	}
+    
+	function setValue($key, $value=null)
+	{
+        if($key!=null && $value!=null)
+        {
+            if(isset($this->{$key})){
+                $this->{$key} = $value;
+            }
+        }
+    }
 }
 
 /* Clase principal de Usuarios - LOGIN */
-class Session extends BaseGlobal
+class User extends BaseGlobal
 {
-	var $error = true;
-	var $userid = null;
-	var $username = null;
+	var $id = 0;
+	var $username = 'guest';
 	var $hash = null;
 	var $lastConnection = null;
 	var $lastIP = null;
 	var $permissions = null;
 	var $permission_id = null;
 	var $permission_name = null;
+	var $profile_id = null;
+    
+	function setData($data=null)
+	{
+        if(isset($data->id)) $this->id = (int) $data->id;
+        if(isset($data->username)) $this->username = $data->username;
+        if(isset($data->hash)) $this->hash = $data->hash;
+        if(isset($data->lastConnection)) $this->lastConnection = $data->lastConnection;
+        if(isset($data->lastIP)) $this->lastIP = $data->lastIP;
+        if(isset($data->permissions)) $this->permissions = $data->permissions;
+        if(isset($data->permission_id)) $this->permission_id = (int) $data->permission_id;
+        if(isset($data->permission_name)) $this->permission_name = $data->permission_name;
+        if(isset($data->create)) $this->create = $data->create;
+        if(isset($data->create_by)) $this->create_by = $data->create_by;
+        if(isset($data->change)) $this->change = $data->change;
+        if(isset($data->change_by)) $this->change_by = $data->change_by;
+        if(isset($data->delete)) $this->delete = $data->delete;
+        if(isset($data->delete_by)) $this->delete_by = $data->delete_by;
+        if(isset($data->profile_id)) $this->profile_id = (int) $data->profile_id;
+    }
+}
+
+class Session
+{
+	var $error = true;
+	var $id = 0;
+	var $username = 'guest';
+	var $hash = null;
+	var $lastConnection = null;
+	var $lastIP = null;
+	var $permissions = null;
+	var $permission_id = null;
+	var $permission_name = null;
+	var $profile_id = null;
 
 	function __construct()
 	{		        
 		if(
-			isset($_SESSION['userid'])
+			isset($_SESSION['id'])
 			&& isset($_SESSION['username'])
 			&& isset($_SESSION['hash'])
 			&& isset($_SESSION['lastConnection'])
@@ -321,16 +408,19 @@ class Session extends BaseGlobal
 			&& isset($_SESSION['permissions'])
 			&& isset($_SESSION['permission_id'])
 			&& isset($_SESSION['permission_name'])
+			&& isset($_SESSION['profile_id'])
 		)
 		{
 			$this->error = false;
+			$this->id = (int) $_SESSION['id'];
 			$this->username = $_SESSION['username'];
 			$this->hash = $_SESSION['hash'];
 			$this->lastConnection = $_SESSION['lastConnection'];
 			$this->lastIP = $_SESSION['lastIP'];
-			$this->permissions = $_SESSION['permissions'];
-			$this->permission_id = $_SESSION['permission_id'];
+			$this->permissions = json_decode($_SESSION['permissions']);
+			$this->permission_id = (int) $_SESSION['permission_id'];
 			$this->permission_name = $_SESSION['permission_name'];
+			$this->profile_id = (int) $_SESSION['profile_id'];
 		}
 		else
 		{
@@ -343,7 +433,7 @@ class Session extends BaseGlobal
 class Profile extends BaseGlobal
 {
 	/* - DATOS PERSONALES - */
-	var $userid = null; // ID Interno de Usuario
+	var $id = null; // ID Interno de Usuario
 	var $first_name = null; // Primer Nombre
 	var $second_name = null; // Segundo Nombre
 	var $surname = null; // Primer Apellido
