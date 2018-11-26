@@ -137,10 +137,24 @@ body {
                 
             </ul>
         </li>
-        
-        <li><a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $pageDataGlobal->session->username; ?></a></li>
-        <!--<li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Settings</a></li>-->
-        <li><a href="?logOut=true"><i class="fa fa-sign-out"></i> Salir</a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle animated rubberBand" data-toggle="dropdown" aria-expanded="true">
+                <!--<i class="fa fa-bell"></i> 
+                <span class="badge total-notifications-response-navbartop">0</span>-->
+                <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo $pageDataGlobal->session->username; ?>
+            </a>
+            <ul class="dropdown-menu two question-pending-navbar">
+                <li class="dropdown-header"><?php echo "{$pageDataGlobal->session->profile->first_name} {$pageDataGlobal->session->profile->second_name}"; ?></li>
+                <li class="dropdown-header"><?php echo "{$pageDataGlobal->session->profile->surname} {$pageDataGlobal->session->profile->second_surname}"; ?></li>
+                <li><a href="<?php echo "/profiles/biography/?profile_id={$pageDataGlobal->session->profile->id}"; ?>"><i class="fa fa-wrench"></i> Mi Perfil</a></li>
+                <li><a href="#"><i class="fa fa-spinner fa-spin" style="color:#000;"></i> Cargando</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#"><i class="fa fa-wrench"></i> Opciones</a></li>
+                <li><a href="?logOut=true"><i class="fa fa-sign-out"></i> Salir</a></li>
+                
+            </ul>
+        </li>
+        <!--<li><a href="#"><i class="fa fa-" aria-hidden="true"></i> </a></li>-->
         <li><a href="#"><i class="fa fa-question"></i> Ayuda</a></li>
         
       </ul>

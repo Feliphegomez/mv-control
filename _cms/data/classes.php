@@ -155,8 +155,6 @@ class DataPage
 		echo "Contraseña: {$hash} <br>";
 		$connect = new ConectionDB();
 		$connect->setSQL("Select A.id, A.username, A.hash, A.profile_id, B.permissions, A.permission_id, B.name As permission_name From users A Left Join permissions B ON B.id = A.permission_id where username IN ('{$username}') and hash IN ('{$hash}') limit 1");
-        
-        
 		$connect->executeSQL();
         if($connect->error == false)
         {
@@ -360,9 +358,10 @@ class User extends BaseGlobal
 	var $lastConnection = null;
 	var $lastIP = null;
 	var $permissions = null;
-	var $permission_id = null;
+	var $permission_id = 0;
 	var $permission_name = null;
-	var $profile_id = null;
+	var $profile_id = 0;
+	var $profile = null;
     
 	function setData($data=null)
 	{
@@ -380,7 +379,12 @@ class User extends BaseGlobal
         if(isset($data->change_by)) $this->change_by = $data->change_by;
         if(isset($data->delete)) $this->delete = $data->delete;
         if(isset($data->delete_by)) $this->delete_by = $data->delete_by;
-        if(isset($data->profile_id)) $this->profile_id = (int) $data->profile_id;
+        if(isset($data->profile_id)){
+            $this->profile_id = (int) $data->profile_id;
+        };
+        $prof = new Profile($this->profile_id);
+        $this->profile = (string) $prof;
+        
     }
 }
 
@@ -396,6 +400,7 @@ class Session
 	var $permission_id = null;
 	var $permission_name = null;
 	var $profile_id = null;
+	var $profile = null;
 
 	function __construct()
 	{		        
@@ -409,6 +414,7 @@ class Session
 			&& isset($_SESSION['permission_id'])
 			&& isset($_SESSION['permission_name'])
 			&& isset($_SESSION['profile_id'])
+			&& isset($_SESSION['profile'])
 		)
 		{
 			$this->error = false;
@@ -421,6 +427,7 @@ class Session
 			$this->permission_id = (int) $_SESSION['permission_id'];
 			$this->permission_name = $_SESSION['permission_name'];
 			$this->profile_id = (int) $_SESSION['profile_id'];
+			$this->profile = json_decode($_SESSION['profile']);
 		}
 		else
 		{
@@ -466,6 +473,28 @@ class Profile extends BaseGlobal
 	var $severance_fund = null; // Fondo de cesantias
 	var $contracts = array();
 	
+    function __construct($profile_id=0)
+    {
+        $this->id = $profile_id;
+        echo $this->id;
+        $profileInfo = new ConectionDB();
+        $profileInfo->setSQL("Select * From persons where id IN ('{$this->id}') ");
+        $profileInfo->executeSQL();
+        if($profileInfo->error == false)
+        {
+            foreach($profileInfo->data as $k=>$v)
+            {
+                if($this->{$k} == null){
+                    $this->{$k} = $v;
+                }
+                #$this->{$k} = $v;
+                #if(isset($this->{$k})) $this->{$k} = $v;
+            }
+        }
+        
+        
+    }
+    
 	/* Cambiar validacion si el contenido esta activo */
 	function isActive()
 	{
