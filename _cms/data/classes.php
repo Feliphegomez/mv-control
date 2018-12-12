@@ -489,5 +489,3 @@ class Profile extends BaseGlobal
 
 
 
-
-

@@ -10,6 +10,7 @@
         <p>Bienvenid@</p>
         <li><a href="/">Dashboard</a></li>
         <li><a href="/forms/new-activity">Nueva Actividad</a></li>
+        <li><a href="/forms/new-client">Nuevo Cliente</a></li>
         <li class="active">
             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Home</a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
