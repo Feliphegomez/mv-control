@@ -1,4 +1,4 @@
-
+<!--
   <ul class="nav nav-sidebar">
     <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
     <li><a href="#">Reports</a></li>
@@ -16,4 +16,11 @@
     <li><a href="">Nav item again</a></li>
     <li><a href="">One more nav</a></li>
     <li><a href="">Another nav item</a></li>
+  </ul>
+  -->
+  <ul class="nav nav-sidebar">
+    <li><a href="/">Dashboard</a></li>
+    <li><a href="/forms/new-activity">Nueva Actividad</a></li>
+    <li><a href="">Nuevo Servicio</a></li>
+    <li><a href="">Nuevo Cliente</a></li>
   </ul>

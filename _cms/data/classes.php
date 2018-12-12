@@ -117,7 +117,7 @@ class DataPage
         $session = $this->session;
         if($session->username != 'guest')
 		{
-            $this->messageGlobal = ('session iniciada');
+            # $this->messageGlobal = ('session iniciada');
         }
         else
         {
