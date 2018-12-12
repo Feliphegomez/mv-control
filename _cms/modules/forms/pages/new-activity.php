@@ -10,33 +10,49 @@
                 <div class="card card-default">
                     <div class="card-header">
                         <h4 class="card-title">
-                                <i class="glyphicon glyphicon-search text-gold"></i>
-                                <b>SECTION I: TO BE COMPLETED BY APPLICANT</b>
+                            <i class="glyphicon glyphicon-search text-gold"></i>
+                            <b>PASO 1: INFORMACION DEL CLIENTE</b>
                         </h4>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 col-lg-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="control-label">Last Name</label>
-                                        <input type="text" class="form-control" />
+                                        <label class="control-label">Tipo de identificacion</label>
+                                        <select class="form-control">
+                                            <option value="">Cedula</option>
+                                            <option value="">Nit</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-md-1 col-lg-4">
+                                <div class="col-md-5">
                                     <div class="form-group">
-                                        <label class="control-label">First Name</label>
-                                        <input type="text" class="form-control" />
+                                        <label class="control-label">Tipo de Identificacion</label>
+                                        <div class="input-group">
+                                          <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+                                          <div class="input-group-append">
+                                            <button type="button" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
+                                            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                              <a class="dropdown-item" href="#"><i class="fa fa-search"></i> Buscar</a>
+                                              <div role="separator" class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#"><i class="fa fa-plus"></i> Nuevo</a>
+                                            </div>
+                                          </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-1 col-lg-1">
                                     <div class="form-group">
-                                        <label class="control-label">Middle.I</label>
-                                        <input class="form-control" type="text" />
+                                        <label class="control-label">Activo</label>
+                                        <input class="form-control" type="checkbox" />
                                     </div>
                                 </div>
 
                                 <div class="col-md-2 col-lg-3">
                                     <div class="form-group">
-                                        <label class="control-label">Date Of Birth</label>
+                                        <label class="control-label">Ultima Actualizacion</label>
                                         <div class="input-group date">
                                             <input class="form-control" type="text" />
                                            <span class="input-group-append">
@@ -93,7 +109,7 @@
                         <h4 class="card-title">
                             <a href="#collapse2">
                                 <i class="glyphicon glyphicon-lock text-gold"></i>
-                                <b>SECTION II: TO BE COMPLETED BY TEACHER OR INSTRUCTOR</b>
+                                <b>PASO 2: INFORMACION DEL SERVICIO A BRINDAR</b>
                             </a>
                         </h4>
                     </div>
@@ -416,6 +432,62 @@
                             <br />
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class=" target">
+                                        <div class="row clearfix">
+                                            <div class="col-md-12">
+
+                                            </div>
+                                            <div class="col-md-7 table-responsive">
+                                                <table class="table table-bordered table-hover table-sortable" id="tab_logic">
+                                                    <thead>
+                                                        <tr >
+                                                            <th class="text-center">
+                                                                Name
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Email
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Notes
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Option
+                                                            </th>
+                                                            <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id='addr0' data-id="0" class="hidden">
+                                                            <td data-name="sel">
+                                                                <select name="sel0">
+                                                                    <option value="">Select Option</option>
+                                                                    <option value="1">Option 1</option>
+                                                                    <option value="2">Option 2</option>
+                                                                    <option value="3">Option 3</option>
+                                                                </select>
+                                                            </td>
+                                                            <td data-name="name">
+                                                                <input type="text" name='name0'  placeholder='Name' class="form-control"/>
+                                                            </td>
+                                                            <td data-name="mail">
+                                                                <input type="text" name='mail0' placeholder='Email' class="form-control"/>
+                                                            </td>
+                                                            <td data-name="desc">
+                                                                <textarea name="desc0" placeholder="Description" class="form-control"></textarea>
+                                                            </td>
+                                                            <td data-name="del">
+                                                                <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                        <a id="add_row" class="btn btn-default pull-right">Add Row</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
                                     <label class="control-label">I recommend this candidate:</label>
 
                                     <label class="control-label">
@@ -444,6 +516,15 @@
                     </div>
                 </div>
             </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
             <div class="row">
                 <div class="col-lg-12">
@@ -460,58 +541,3 @@
 
 
 
-
-<div class=" target">
-    <div class="row clearfix">
-    	<div class="col-md-12">
-            
-    	</div>
-    	<div class="col-md-7 table-responsive">
-			<table class="table table-bordered table-hover table-sortable" id="tab_logic">
-				<thead>
-					<tr >
-						<th class="text-center">
-							Name
-						</th>
-						<th class="text-center">
-							Email
-						</th>
-						<th class="text-center">
-							Notes
-						</th>
-    					<th class="text-center">
-							Option
-						</th>
-        				<th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-    				<tr id='addr0' data-id="0" class="hidden">
-    					<td data-name="sel">
-						    <select name="sel0">
-        				        <option value="">Select Option</option>
-    					        <option value="1">Option 1</option>
-        				        <option value="2">Option 2</option>
-        				        <option value="3">Option 3</option>
-						    </select>
-						</td>
-						<td data-name="name">
-						    <input type="text" name='name0'  placeholder='Name' class="form-control"/>
-						</td>
-						<td data-name="mail">
-						    <input type="text" name='mail0' placeholder='Email' class="form-control"/>
-						</td>
-						<td data-name="desc">
-						    <textarea name="desc0" placeholder="Description" class="form-control"></textarea>
-						</td>
-                        <td data-name="del">
-                            <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
-                        </td>
-					</tr>
-				</tbody>
-			</table>
-	<a id="add_row" class="btn btn-default pull-right">Add Row</a>
-		</div>
-	</div>
-</div>

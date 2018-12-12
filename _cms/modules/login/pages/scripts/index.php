@@ -1,7 +1,7 @@
 <script>
-$('#login-button').click(function () {
-	$('#login-button').fadeOut("slow", function () {
-		$("#container").fadeIn();
+jQuery('#login-button').click(function () {
+	jQuery('#login-button').fadeOut("slow", function () {
+		jQuery("#container").fadeIn();
 		TweenMax.from("#container", .4, {
 			scale: 0,
 			ease: Sine.easeInOut
@@ -13,7 +13,7 @@ $('#login-button').click(function () {
 	});
 });
 
-$(".close-btn").click(function () {
+jQuery(".close-btn").click(function () {
 	TweenMax.from("#container", .4, {
 		scale: 1,
 		ease: Sine.easeInOut
@@ -23,22 +23,22 @@ $(".close-btn").click(function () {
 		scale: 0,
 		ease: Sine.easeInOut
 	});
-	$("#container, #forgotten-container").fadeOut(600, function () {
-		$("#login-button").fadeIn(600);
+	jQuery("#container, #forgotten-container").fadeOut(600, function () {
+		jQuery("#login-button").fadeIn(600);
 	});
 });
 
 /* Recuperar Clave */
-$('#forgotten').click(function () {
-	$("#container").fadeOut(function () {
-		$("#forgotten-container").fadeIn();
+jQuery('#forgotten').click(function () {
+	jQuery("#container").fadeOut(function () {
+		jQuery("#forgotten-container").fadeIn();
 	});
 });
   
 /* Recuperar Clave */
-$('#rememberUser').click(function () {
-	$("#container").fadeOut(function () {
-		$("#forgotten-container").fadeIn();
+jQuery('#rememberUser').click(function () {
+	jQuery("#container").fadeOut(function () {
+		jQuery("#forgotten-container").fadeIn();
 	});
 });
 </script>

@@ -280,34 +280,7 @@ class DataPage
 	/* Funcion para devolver el código HTML */
 	function htmlRun()
 	{
-		echo '<!doctype html>'
-			.'<html lang="es">';
-				$this->includeFile("head.php");
-				echo '<body>';
-                    if($this->module != 'login')
-                    {
-                        $this->includeFile("top-menu.php");
-                        echo '<div class="container-fluid">';
-                        echo '<div class="row">';
-                            echo '<div class="col-sm-3 col-md-2 sidebar">';
-                                $this->includeFile("left-menu.php");
-                            echo '</div>';
-                            echo '<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">';
-                                $this->includePageActive();
-                                $this->includeFile("footer.php");
-                            echo '</div>';
-                          echo '</div>';
-                        echo '</div>';
-                    }
-                    else
-                    {
-                        $this->includePageActive();
-                        $this->includeFile("footer.php");
-                    }
-					$this->includeFile("footer-scripts.php");
-					$this->includePageActiveFooterScripts();
-				echo '</body>'
-			.'</html>';		
+		$this->includeFile('template-home.php');
 	}
 }
 
