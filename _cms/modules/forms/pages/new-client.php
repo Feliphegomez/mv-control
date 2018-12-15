@@ -1,10 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-
 <div class="col-lg-12">
     <h1 class="text-center">
         <h3>Nuevo Cliente</h3>
@@ -25,9 +18,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <p>
-                                        Como parte del proceso de Monteverde LTDA, se solicita ingresar a todos los clientes y clientes potenciales. Agradecemos cualquier comentario y evaluación que le gustaría ofrecer sobre este cliente. Siéntase libre de adjuntar comentarios y/o descripciones.
-                                    </p>
+                                    <p>Como parte del proceso de Monteverde LTDA, se solicita ingresar a todos los clientes y clientes potenciales. Agradecemos cualquier comentario y evaluación que le gustaría ofrecer sobre este cliente. Siéntase libre de adjuntar comentarios y/o descripciones.</p>
                                 </div>
                             </div>
 
@@ -35,7 +26,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Tipo de cliente</label>
-                                        <select class="form-control">
+                                        <select class="form-control list-client_types">
                                             <option value=""></option>
                                         </select>
                                     </div>
@@ -124,7 +115,9 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">Ciudad</label>
-                                        <input type="text" class="form-control" />
+                                        <select class="form-control">
+                                            <option value=""></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -228,20 +221,13 @@
                     </div>
                 </div>
             </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-
-            </div>
         </div>
+    </div>
 </div>
 
-
-
+<script>
+if($('.list-client_types').length > 0)
+{
+    alert('Cargar...');
+}
+</script>
