@@ -153,7 +153,7 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="add-content">Mapa</label>
-            <iframe marginheight="0" marginwidth="0" v-bind:src="'https://4umaps.com/map.htm?zoom=13&amp;lat=' + post.latitude + '&amp;lon=' + post.longitude + '&amp;layers=B'" 
+            <iframe marginheight="0" marginwidth="0" v-bind:src="'//www.openstreetmap.org/export/embed.html?marker=' + post.latitude + ',' + post.longitude + '&bbox=' + post.longitude + ',' + post.latitude" 
             scrolling="no" frameborder="0" height="500" width="700"> 
             </iframe>
           </div>
@@ -257,7 +257,7 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="add-content">Mapa</label>
-            <iframe marginheight="0" marginwidth="0" v-bind:src="'https://4umaps.com/map.htm?zoom=13&amp;lat=' + post.latitude + '&amp;lon=' + post.longitude + '&amp;layers=B'" 
+            <iframe marginheight="0" marginwidth="0" v-bind:src="'//www.openstreetmap.org/export/embed.html?marker=' + post.latitude + ',' + post.longitude + '&bbox=' + post.longitude + ',' + post.latitude" 
             scrolling="no" frameborder="0" height="500" width="700"> 
             </iframe>
           </div>
@@ -371,10 +371,9 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="add-content">Mapa</label>
-            <iframe marginheight="0" marginwidth="0" v-bind:src="'//4umaps.com/map.htm?zoom=13&amp;lat=' + post.latitude + '&amp;lon=' + post.longitude + '&amp;layers=B'" 
+            <iframe marginheight="0" marginwidth="0" v-bind:src="'//www.openstreetmap.org/export/embed.html?marker=' + post.latitude + ',' + post.longitude + '&bbox=' + post.longitude + ',' + post.latitude" 
             scrolling="no" frameborder="0" height="500" width="700"> 
             </iframe>
-            
           </div>
         </div>
     </div>

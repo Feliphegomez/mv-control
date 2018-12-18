@@ -42,8 +42,9 @@
         <li>
 			<a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-users"></i> Empleados </a>
             <ul class="collapse list-unstyled" id="employeeSubmenu">
-                <li><a href="/forms/employee-charges"> <i class="fa fa-address-card-o"></i> Cargos</a></li>
-                <li><a href="/forms/employee-tasks"> <i class="fa fa-tasks"></i> Tareas</a></li>
+                <li><a href="/persons/employee"> <i class="fa fa-user-circle"></i> Personal</a></li>
+                <li><a href="/persons/employee-charges"> <i class="fa fa-address-card-o"></i> Cargos</a></li>
+                <li><a href="/persons/employee-tasks"> <i class="fa fa-tasks"></i> Tareas</a></li>
                 
             </ul>
         </li>
