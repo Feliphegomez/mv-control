@@ -2,7 +2,7 @@
   <header class="page-header">
     <div class="branding">
       <img src="https://vuejs.org/images/logo.png" alt="Logo" title="Home page" class="logo"/>
-      <h1>Tipos de Sociedades</h1>
+      <h1>Tipo de Novedades</h1>
     </div>
   </header>
   <main id="app">

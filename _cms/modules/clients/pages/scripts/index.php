@@ -38,7 +38,8 @@ var List = Vue.extend({
           'society_types',
           'identification_types',
           'citys',
-          'departments_citys'
+          'departments_citys',
+          'contacts_clients',
         ],
       }
     }).then(function (response) {
@@ -55,12 +56,14 @@ var List = Vue.extend({
     }
   }
 });
+
 var post = Vue.extend({
   template: '#post',
   data: function () {
     return {post: findpost(this.$route.params.post_id)};
   }
 });
+
 var postEdit = Vue.extend({
   template: '#post-edit',
   data: function () {
@@ -70,7 +73,7 @@ var postEdit = Vue.extend({
         societyTypesList: [],
         departmentsCitysList: [],
         citysList: [],
-        post: findpost(this.$route.params.post_id)
+        post: findpost(this.$route.params.post_id),
     };
   },
   methods: {
@@ -83,7 +86,6 @@ var postEdit = Vue.extend({
         newPost.city = post.city.id;
         newPost.department_city = post.department_city.id;
         console.log(JSON.stringify(newPost));
-      /**/
       api.put('/clients/'+post.id,newPost).then(function (response) {
         console.log(response.data);
       }).catch(function (error) {
@@ -167,6 +169,7 @@ var postEdit = Vue.extend({
     //self.clientTypesList = 
   },
 });
+
 var postDelete = Vue.extend({
   template: '#post-delete',
   data: function () {
@@ -184,6 +187,7 @@ var postDelete = Vue.extend({
     }
   }
 });
+
 var Addpost = Vue.extend({
   template: '#add-post',
   data: function () {
@@ -194,7 +198,14 @@ var Addpost = Vue.extend({
       departmentsCitysList: [],
       citysList: [],
       post: {
-        content: '',
+        client_type: 0,
+        identification_type: 0,
+        identification_number: '',
+        social_reason: '',
+        tradename: '',
+        society_type: 0,
+        department_city: 0,
+        city: 0,
         user_id: 1,
         category_id: 1
       }}
@@ -274,12 +285,135 @@ var Addpost = Vue.extend({
     //self.clientTypesList = 
   },
 });
+
+var AddContact = Vue.extend({
+  template: '#add-contact',
+  data: function () {
+    return {
+      client_id: 0,
+      clientTypesList: [],
+      clientData: {
+        client: 0,
+        first_name: '',
+        mail: '',
+      }
+    }
+  },
+  methods: {
+    createContact: function() {
+      var self = this;
+      var post = self.clientData;
+      
+      console.log(post);
+      api.post('/contacts_clients',post).then(function (response) {
+        self.clientData.id = response.data;
+        var Temp = findpost(post.client)
+        Temp.contacts_clients.push(post);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(JSON.stringify(error));
+      });
+      
+      router.push('/post/' + post.client  + '/edit');
+      
+    },
+  },
+  created: function(){
+    var self = this;
+    self.client_id = self.$route.params.post_id;
+    self.clientData.client = self.client_id;
+    
+    if(self.clientData.client > 0){
+    }
+    else{
+      router.push('/');
+    }
+  },
+});
+
+var contactDelete = Vue.extend({
+  template: '#contact-delete',
+  data: function () {
+    return {
+      contact_id: this.$route.params.contact_id,
+      client_id: this.$route.params.post_id,
+    };
+  },
+  methods: {
+    deletecontact: function () {
+      var clientId = this.client_id;
+      var contactId = this.contact_id;
+      api.delete('/contacts_clients/' + contactId).then(function (response) {
+        console.log(response.data);
+        router.push('/');
+        location.reload();
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+      router.push('/post/' + clientId  + '/edit');
+    }
+  }
+});
+
+
+var contactEdit = Vue.extend({
+  template: '#contact-edit',
+  data: function () {
+    return {
+        client_id: 0,
+        contact_id: 0,
+        contactData: {
+          description: '',
+          client: 0,
+          first_name: '',
+          mail: '',
+        }
+    };
+  },
+  methods: {
+    updatecontact: function () {
+      var self = this;
+      
+      api.put('/contacts_clients/' + self.contact_id, self.contactData).then(function (response) {
+        console.log(response.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      router.push('/post/' + self.client_id  + '/edit');
+      //location.reload();
+    }
+  },
+  created: function(){
+    var self = this;
+    self.contactData.client = self.client_id = self.$route.params.post_id;
+    self.contactData.id = self.contact_id = self.$route.params.contact_id;
+    var Temp3 = findpost(self.client_id);
+    if(Temp3.contacts_clients.length > 0)
+     {
+      for (var key = 0; key < Temp3.contacts_clients.length; key++) {
+        if (Temp3.contacts_clients[key].id == self.contact_id) {
+          self.contactData = Temp3.contacts_clients[key];
+        }
+      }
+     }
+    else
+    {
+      console.log('Error retornar');
+    }
+    
+  },
+});
+
 var router = new VueRouter({routes:[
   { path: '/', component: List},
   { path: '/post/:post_id', component: post, name: 'post'},
   { path: '/add-post', component: Addpost},
+  { path: '/add-contact', component: AddContact, name: 'contact-add' },
   { path: '/post/:post_id/edit', component: postEdit, name: 'post-edit'},
-  { path: '/post/:post_id/delete', component: postDelete, name: 'post-delete'}
+  { path: '/post/:post_id/delete', component: postDelete, name: 'post-delete'},
+  { path: '/post/:post_id/contact/:contact_id/delete', component: contactDelete, name: 'contact-delete'},
+  { path: '/post/:post_id/contact/:contact_id/edit', component: contactEdit, name: 'contact-edit'},
 ]});
 app = new Vue({
   router:router

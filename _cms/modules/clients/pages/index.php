@@ -54,8 +54,8 @@
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.department_city.name }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.city.name }}</router-link></td>
         <td>
-          <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'post-edit', params: {post_id: post.id}}">Modificar</router-link>
-          <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'post-delete', params: {post_id: post.id}}">Eliminar</router-link>
+          <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'post-edit', params: {post_id: post.id}}"><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
+          <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'post-delete', params: {post_id: post.id}}"><i class="fa fa-trash" aria-hidden="true"></i></router-link>
         </td>
       </tr>
       </tbody>
@@ -88,7 +88,7 @@
                               <div class="form-group">
                                   <label class="control-label">Tipo de cliente</label>
                                   <select class="form-control" v-model="post.client_type">
-                                    <option value="" selected="selected">Seleccione una opcion.</option>
+                                    <option value="0">Seleccione una opcion.</option>
                                       <option v-bind:value="item.id" v-for="item in clientTypesList">{{ item.name }}</option>
                                   </select>
                               </div>
@@ -98,7 +98,7 @@
                               <div class="form-group">
                                   <label class="control-label">Tipo de identificacion</label>
                                   <select class="form-control" v-model="post.identification_type">
-                                    <option value="" selected="selected">Seleccione una opcion.</option>
+                                    <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in identificationTypesList">{{ item.name }}</option>
                                   </select>
                               </div>
@@ -131,7 +131,7 @@
                               <div class="form-group">
                                   <label class="control-label">Tipo de Sociedad</label>
                                   <select class="form-control" v-model="post.society_type">
-                                    <option selected="selected">Seleccione una opcion.</option>
+                                    <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in societyTypesList">{{ item.name }}</option>
                                   </select>
                               </div>
@@ -143,7 +143,7 @@
                               <div class="form-group">
                                   <label class="control-label">Departamento</label>
                                   <select class="form-control" v-model="post.department_city" @change="loadCityDepartment">
-                                    <option value="" selected="selected">Seleccione una opcion.</option>
+                                    <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in departmentsCitysList">{{ item.name }}</option>
                                   </select>
                               </div>
@@ -152,7 +152,7 @@
                               <div class="form-group">
                                   <label class="control-label">Ciudad</label>
                                   <select class="form-control" v-model="post.city">
-                                    <option selected="selected">Seleccione una opcion.</option>
+                                    <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in citysList">{{ item.name }}</option>
                                   </select>
                               </div>
@@ -173,18 +173,26 @@
                               </div>
                           </div>
 
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                               <div class="form-group">
                                   <label class="control-label">Teléfono Móvil</label>
                                   <input type="text" class="form-control" v-model="post.phone_mobile" />
                               </div>
                           </div>
 
-                          <div class="col-md-5">
+                          <div class="col-md-3">
                               <label class="control-label">Correo Electronico</label>
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                   <input type="text" class="form-control" v-model="post.mail" />
+                              </div>
+                          </div>
+                        
+                          <div class="col-md-3">
+                              <label class="control-label">Representante Legal</label>
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                  <input type="text" class="form-control" v-model="post.legal_representative" />
                               </div>
                           </div>
                       </div>
@@ -259,13 +267,38 @@
                     -->
                       <br />
 
-
                       <div class="row">
                           <div class="col-lg-12">
-                              <div class="pull-right">
-                                <button type="submit" class="btn btn-success">Crear</button>
-                                <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
+                              <div class="card card-default">
+                                  <div class="card-header">
+                                      <h4 class="card-title">
+                                          <i class="glyphicon glyphicon-lock text-gold"></i>
+                                          <b>CONTACTOS:</b>
+                                      </h4>
+                                  </div>
+                                  <div>
+                                      <div class="card-body">
+                                          <div class="row">
+                                              <div class="col-lg-12">
+                                              </div>
+                                              <div class="col-lg-12">
+                                                Antes de agregar los contactos debes crear el cliente
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
                               </div>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                            <div class="col-lg-12">
+                                <br>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-success">Crear</button>
+                                    <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
+                                </div>
+                                <br>
                           </div>
                       </div>
                   </div>
@@ -381,18 +414,26 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="control-label">Teléfono Móvil</label>
                                     <input type="text" class="form-control" v-model="post.phone_mobile" readonly="" disabled="" />
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label class="control-label">Correo Electronico</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                     <input type="text" class="form-control" v-model="post.mail" readonly="" disabled="" />
+                                </div>
+                            </div>
+                          
+                            <div class="col-md-3">
+                                <label class="control-label">Representante Legal</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input type="text" class="form-control" v-model="post.legal_representative" readonly="" disabled=""  />
                                 </div>
                             </div>
                         </div>
@@ -400,8 +441,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label class="control-label">Campo para Adjuntos</label>
-                                <textarea class="form-control" v-model="post.comments" readonly="" disabled="" />
-                                </textarea>
+                                <textarea class="form-control" v-model="post.comments" readonly="" disabled=""></textarea>
                             </div>
                         </div>
 
@@ -452,6 +492,44 @@
                       -->
                         <br />
 
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    <i class="glyphicon glyphicon-lock text-gold"></i>
+                                    <b>CONTACTOS:</b>
+                                </h4>
+                            </div>
+                            <div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                          <table class="table table-responsive">
+                                            <tr>
+                                              <th>Nombre Completo</th>
+                                              <th>Identificacion</th>
+                                              <th>Correo Electronico</th>
+                                              <th>Numero de Telefono</th>
+                                              <th>Numero de Movil</th>
+                                              <th>Cargo</th>
+                                              <th>Area</th>
+                                              <th>Observaciones</th>
+                                            </tr>
+                                            <tr v-for="contact in post.contacts_clients">
+                                              <td>{{ contact.first_name }} {{ contact.second_name }} {{ contact.surname }} {{ contact.second_surname }}</td>
+                                              <td>{{ contact.identification_number }}</td>
+                                              <td>{{ contact.mail }}</td>
+                                              <td>{{ contact.number_phone }}</td>
+                                              <td>{{ contact.number_mobile }}</td>
+                                              <td>{{ contact.charge }}</td>
+                                              <td>{{ contact.area }}</td>
+                                              <td>{{ contact.description }}</td>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-lg-12">
@@ -573,20 +651,28 @@
                               </div>
                           </div>
 
-                          <div class="col-md-4">
+                          <div class="col-md-3">
                               <div class="form-group">
                                   <label class="control-label">Teléfono Móvil</label>
                                   <input type="text" class="form-control" v-model="post.phone_mobile" />
                               </div>
                           </div>
 
-                          <div class="col-md-5">
+                          <div class="col-md-3">
                               <label class="control-label">Correo Electronico</label>
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                   <input type="text" class="form-control" v-model="post.mail" />
                               </div>
                           </div>
+                        
+                          <div class="col-md-3">
+                              <label class="control-label">Representante Legal</label>
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                  <input type="text" class="form-control" v-model="post.legal_representative" />
+                              </div>
+                          </div>                        
                       </div>
 
                       <div class="row">
@@ -661,9 +747,61 @@
 
                       <div class="row">
                           <div class="col-lg-12">
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <h4 class="card-title">
+                                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                                            <b>CONTACTOS:</b>
+                                        </h4>
+                                    </div>
+                                    <div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                  <router-link class="btn btn-success btn-xs" v-bind:to="{name: 'contact-add', params: {post_id: post.id}}"><i class="fa fa-plus-square"></i> Crear </router-link>
+                                                  <hr>
+                                                  <table class="table table-responsive">
+                                                    <tr>
+                                                      <th>Nombre Completo</th>
+                                                      <th>Identificacion</th>
+                                                      <th>Correo Electronico</th>
+                                                      <th>Numero de Telefono</th>
+                                                      <th>Numero de Movil</th>
+                                                      <th>Cargo</th>
+                                                      <th>Area</th>
+                                                      <th>Observaciones</th>
+                                                      <th>Actions</th>
+                                                    </tr>
+                                                    <tr v-for="contact in post.contacts_clients">
+                                                      <td>{{ contact.first_name }} {{ contact.second_name }} {{ contact.surname }} {{ contact.second_surname }}</td>
+                                                      <td>{{ contact.identification_number }}</td>
+                                                      <td>{{ contact.mail }}</td>
+                                                      <td>{{ contact.number_phone }}</td>
+                                                      <td>{{ contact.number_mobile }}</td>
+                                                      <td>{{ contact.charge }}</td>
+                                                      <td>{{ contact.area }}</td>
+                                                      <td>{{ contact.description }}</td>
+                                                      <td>
+                                                        <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'contact-edit', params: {post_id: post.id, contact_id: contact.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
+                                                        <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'contact-delete', params: { post_id: post.id, contact_id: contact.id }}"><i class="fa fa-trash" aria-hidden="true"></i></router-link>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      <div class="row">
+                          <div class="col-lg-12">
                               <div class="pull-right">
+                                <br>
                                   <button type="submit" class="btn btn-primary">Guardar</button>
                                   <router-link class="btn btn-secundary" v-bind:to="'/'">Cancelar</router-link>
+                                <br>
                               </div>
                           </div>
                       </div>
@@ -676,13 +814,244 @@
   </div>
 </template>
 
+<template id="add-contact">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>NUEVO CONTACTO</b>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form v-on:submit="createContact" method="POST">
+                                        <div class="row">
+                                          <input type="hidden" class="form-control" v-model="clientData.client" />
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label"># Identificacion</label>
+                                                  <input type="text" class="form-control" v-model="clientData.identification_number" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Nombre</label>
+                                                  <input type="text" class="form-control" v-model="clientData.first_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Nombre</label>
+                                                  <input type="text" class="form-control" v-model="clientData.second_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Apellido</label>
+                                                  <input type="text" class="form-control" v-model="clientData.surname" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Apellido</label>
+                                                  <input type="text" class="form-control" v-model="clientData.second_surname" />
+                                              </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label">Correo Electronico</label>
+                                                  <input type="text" class="form-control" v-model="clientData.mail" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Fijo</label>
+                                                  <input type="text" class="form-control" v-model="clientData.number_phone" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Movil</label>
+                                                  <input type="text" class="form-control" v-model="clientData.number_mobile" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Cargo</label>
+                                                  <input type="text" class="form-control" v-model="clientData.charge" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Area</label>
+                                                  <input type="text" class="form-control" v-model="clientData.area" />
+                                              </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Descripcion</label>
+                                                    <textarea class="form-control" v-model="clientData.description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="pull-right">
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template id="post-delete">
   <div>
-    <h2>Delete post {{ post.id }}</h2>
+    <h2>Eliminar Cliente {{ post.id }}</h2>
     <form v-on:submit="deletepost">
-      <p>The action cannot be undone.</p>
+      <p>Se va a eliminar el cliente permanentemente, confirme en el boton ROJO para eliminar.</p>
       <button type="submit" class="btn btn-danger">Eliminar</button>
       <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
     </form>
   </div>
+</template>
+
+<template id="contact-delete">
+  <div>
+    <h2>Eliminar contacto {{ contact_id }}</h2>
+    <form v-on:submit="deletecontact">
+      <p>Se va a eliminar el contacto permanentemente, confirme en el boton ROJO para eliminar.</p>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+                <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+    </form>
+  </div>
+</template>
+
+<template id="contact-edit">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>EDITAR CONTACTO</b>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form v-on:submit="updatecontact">
+                                      <div class="row">
+                                          <input type="hidden" class="form-control" v-model="contactData.id" />
+                                          <input type="hidden" class="form-control" v-model="contactData.client" />
+                                        
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label"># Identificacion</label>
+                                                  <input type="text" class="form-control" v-model="contactData.identification_number" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Nombre</label>
+                                                  <input type="text" class="form-control" v-model="contactData.first_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Nombre</label>
+                                                  <input type="text" class="form-control" v-model="contactData.second_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Apellido</label>
+                                                  <input type="text" class="form-control" v-model="contactData.surname" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Apellido</label>
+                                                  <input type="text" class="form-control" v-model="contactData.second_surname" />
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="row">
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label">Correo Electronico</label>
+                                                  <input type="text" class="form-control" v-model="contactData.mail" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Fijo</label>
+                                                  <input type="text" class="form-control" v-model="contactData.number_phone" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Movil</label>
+                                                  <input type="text" class="form-control" v-model="contactData.number_mobile" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Cargo</label>
+                                                  <input type="text" class="form-control" v-model="contactData.charge" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Area</label>
+                                                  <input type="text" class="form-control" v-model="contactData.area" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="control-label">Descripcion</label>
+                                                  <textarea class="form-control" v-model="contactData.description"></textarea>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="pull-right">
+                                                  <button type="submit" class="btn btn-primary">Guardar</button>
+                                                  <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

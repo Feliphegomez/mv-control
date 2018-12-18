@@ -21,13 +21,8 @@ var List = Vue.extend({
   },
   created: function () {
     var self = this;
-    api.get('/citys', {
-      params: {
-          join: 'departments_citys',
-      }
-    }).then(function (response) {
+    api.get('/novelty_types').then(function (response) {
       posts = self.posts = response.data.records;
-        console.log(posts[0]);
     }).catch(function (error) {
       console.log(error);
     });
@@ -54,7 +49,7 @@ var postEdit = Vue.extend({
   methods: {
     updatepost: function () {
       var post = this.post;
-      api.put('/citys/'+post.id,post).then(function (response) {
+      api.put('/novelty_types/'+post.id,post).then(function (response) {
         console.log(response.data);
       }).catch(function (error) {
         console.log(error);
@@ -71,7 +66,7 @@ var postDelete = Vue.extend({
   methods: {
     deletepost: function () {
       var post = this.post;
-      api.delete('/citys/'+post.id).then(function (response) {
+      api.delete('/novelty_types/'+post.id).then(function (response) {
         console.log(response.data);
       }).catch(function (error) {
         console.log(error);
@@ -88,7 +83,7 @@ var Addpost = Vue.extend({
   methods: {
     createpost: function() {
       var post = this.post;
-      api.post('/citys',post).then(function (response) {
+      api.post('/novelty_types',post).then(function (response) {
         post.id = response.data;
       }).catch(function (error) {
         console.log(error);

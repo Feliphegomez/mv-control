@@ -8,10 +8,10 @@
 <!-- jQuery Custom Scroller CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <!-- Vue And Axios -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/vue-router/2.2.1/vue-router.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="/assets/js/vue.js"></script>
+<script src="/assets/js/vue-router.js"></script>
+<script src="/assets/js/axios.js"></script>
+<script src="/assets/js/TweenMax.min.js"></script>
 <script src="/assets/js/notify.min.js"></script>
 
 <script type="text/javascript">

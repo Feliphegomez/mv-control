@@ -2,7 +2,7 @@
   <header class="page-header">
     <div class="branding">
       <img src="https://vuejs.org/images/logo.png" alt="Logo" title="Home page" class="logo"/>
-      <h1>Ciudades</h1>
+      <h1>Tipos de Sociedades</h1>
     </div>
   </header>
   <main id="app">
@@ -29,8 +29,8 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Departamento</th>
-        <th class="col-sm-2">Actions</th>
+        <th>Descripcion</th>
+        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -40,7 +40,7 @@
       <tr v-else v-for="post in filteredposts">
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.id }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.name }}</router-link></td>
-        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.department.name }}</router-link></td>
+        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.description }}</router-link></td>
         <td>
           <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'post-edit', params: {post_id: post.id}}">Modificar</router-link>
           <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'post-delete', params: {post_id: post.id}}">Eliminar</router-link>
@@ -70,6 +70,7 @@
     <b>Nombre: </b>
     <div>{{ post.id }}</div>
     <div>{{ post.name }}</div>
+    <div>{{ post.description }}</div>
     <br/>
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
     <router-link v-bind:to="'/'">Volver a la lista de mensajes</router-link>

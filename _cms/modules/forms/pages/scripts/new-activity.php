@@ -1,21 +1,4 @@
-<style>
-.card-default {
-    color: #333;
-    background: linear-gradient(#fff,#ebebeb) repeat scroll 0 0 transparent;
-    font-weight: 600;
-    border-radius: 6px;
-}
 
-</style>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-    
-    
 <script>
 $(document).ready(function() {
     $("#add_row").on("click", function() {
@@ -101,4 +84,106 @@ $(document).ready(function() {
 
     $("#add_row").trigger("click");
 });
+</script>
+
+<script>
+var posts = null;
+var api = axios.create({
+  baseURL: '/api/v0/api.php/records'
+});
+function findpost (postId) {
+  return posts[findpostKey(postId)];
+};
+function findpostKey (postId) {
+  for (var key = 0; key < posts.length; key++) {
+    if (posts[key].id == postId) {
+      return key;
+    }
+  }
+};
+var List = Vue.extend({
+  template: '#post-list',
+  data: function () {
+    return {
+        identificationTypesList: [],
+        servicesList: [],
+        identification_type: '',
+        identification_number: '',
+        client: {
+            id: 0,
+            identification_number: 0,
+            client_type: {
+                id: 0,
+                name: '',
+            },
+            society_type: {
+                id: 0,
+                name: '',
+            }
+        }
+    };
+  },
+  created: function () {
+    var self = this;
+    
+    
+    api.get('/identification_types', {
+      params: {
+      }
+    }).then(function (response) {
+      self.identificationTypesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    api.get('/services', {
+      params: {
+      }
+    }).then(function (response) {
+      self.servicesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+    methods: {
+        searchClient: function(){
+            var self = this;
+            
+            if(self.identification_number != '' && self.identification_type)
+            {
+                
+                api.get('/clients', {
+                  params: {
+                    filter:[
+                        'identification_type,eq,' + self.identification_type,
+                        'identification_number,eq,' + self.identification_number,
+                    ],
+                    join:[
+                      'client_types',
+                      'society_types',
+                      'identification_types',
+                      'citys',
+                      'departments_citys'
+                    ],
+                  }
+                }).then(function (response) {
+                    if(response.data.records.length == 0){
+                        alert('Cliente no encontrado');
+                    }
+                    else
+                    {
+                        self.client = response.data.records[0];
+                    }
+                }).catch(function (error) {
+                  console.log(error);
+                });
+            }
+        }
+    }
+});
+var router = new VueRouter({routes:[
+  { path: '/', component: List},
+]});
+app = new Vue({
+  router:router
+}).$mount('#app')
 </script>

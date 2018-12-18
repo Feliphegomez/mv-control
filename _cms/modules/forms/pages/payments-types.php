@@ -1,8 +1,9 @@
+
 <div class="container">
   <header class="page-header">
     <div class="branding">
       <img src="https://vuejs.org/images/logo.png" alt="Logo" title="Home page" class="logo"/>
-      <h1>Ciudades</h1>
+      <h1>Unidades de Medida</h1>
     </div>
   </header>
   <main id="app">
@@ -29,7 +30,7 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Departamento</th>
+        <th>Titulo</th>
         <th class="col-sm-2">Actions</th>
       </tr>
       </thead>
@@ -38,9 +39,15 @@
         <td colspan="4">Loading...</td>
       </tr>
       <tr v-else v-for="post in filteredposts">
-        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.id }}</router-link></td>
-        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.name }}</router-link></td>
-        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.department.name }}</router-link></td>
+        <td>
+          <router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.id }}</router-link>
+        </td>
+        <td>
+          <router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.name }}</router-link>
+        </td>
+        <td>
+          <router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.title }}</router-link>
+        </td>
         <td>
           <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'post-edit', params: {post_id: post.id}}">Modificar</router-link>
           <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'post-delete', params: {post_id: post.id}}">Eliminar</router-link>
@@ -59,6 +66,10 @@
         <label for="add-content">Nombre</label>
         <input class="form-control" type="text" id="add-content" v-model="post.name" />
       </div>
+      <div class="form-group">
+        <label for="add-content">Titulo</label>
+        <input class="form-control" type="text" id="add-content" v-model="post.title" />
+      </div>
       <button type="submit" class="btn btn-primary">Crear</button>
       <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
     </form>
@@ -70,6 +81,7 @@
     <b>Nombre: </b>
     <div>{{ post.id }}</div>
     <div>{{ post.name }}</div>
+    <div>{{ post.title }}</div>
     <br/>
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
     <router-link v-bind:to="'/'">Volver a la lista de mensajes</router-link>
@@ -81,8 +93,12 @@
     <h2>Modificar post</h2>
     <form v-on:submit="updatepost">
       <div class="form-group">
-        <label for="edit-content">Content</label>
+        <label for="edit-content">Nombre</label>
         <input class="form-control" id="edit-content" v-model="post.name" />
+      </div>
+      <div class="form-group">
+        <label for="edit-content">Titulo</label>
+        <input class="form-control" id="edit-content" v-model="post.title" />
       </div>
       <button type="submit" class="btn btn-primary">Guardar</button>
       <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>

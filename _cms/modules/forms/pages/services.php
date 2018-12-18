@@ -84,11 +84,10 @@
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Tipo de cobro</label>
-                                  <!--
-                                  <select class="form-control" v-model="post.identification_type">
+                                  <select class="form-control" v-model="post.payment_type">
                                     <option value="" selected="selected">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in identificationTypesList">{{ item.name }}</option>
-                                  </select>-->
+                                    <option v-bind:value="item.id" v-for="item in paymentsTypesList">{{ item.name }}</option>
+                                  </select>
                               </div>
                           </div>
                           
@@ -96,6 +95,15 @@
                               <div class="form-group">
                                   <label class="control-label">Precio</label>
                                   <input type="text" class="form-control" v-model="post.price" />
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <label class="control-label">Descripcion</label>
+                                  <textarea type="text" class="form-control" v-model="post.description"></textarea>
                               </div>
                           </div>
                       </div>
@@ -140,29 +148,36 @@
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Nombre </label>
-                                  <input type="text" class="form-control" v-model="post.name" />
+                                  <input type="text" class="form-control" v-model="post.name" disabled="" readonly="" />
                               </div>
                           </div>
 
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Tipo de cobro</label>
-                                  <!--
-                                  <select class="form-control" v-model="post.identification_type">
-                                    <option value="" selected="selected">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in identificationTypesList">{{ item.name }}</option>
-                                  </select>-->
+                                  <select class="form-control" disabled="" readonly="">
+                                    <option value="" selected="selected">{{ post.payment_type.name }}</option>
+                                  </select>
                               </div>
                           </div>
                           
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Precio</label>
-                                  <input type="text" class="form-control" v-model="post.price" />
+                                  <input type="text" class="form-control" v-model="post.price" disabled="" readonly="" />
                               </div>
                           </div>
                         </div>
-
+                        
+                        
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <label class="control-label">Descripcion</label>
+                                  <textarea type="text" class="form-control" v-model="post.description" disabled="" readonly=""></textarea>
+                              </div>
+                          </div>
+                      </div>
                         
                         <div class="row">
                             <div class="col-lg-12">
@@ -210,11 +225,10 @@
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Tipo de cobro</label>
-                                  <!--
-                                  <select class="form-control" v-model="post.identification_type">
+                                  <select class="form-control" v-model="post.payment_type.id">
                                     <option value="" selected="selected">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in identificationTypesList">{{ item.name }}</option>
-                                  </select>-->
+                                    <option v-bind:value="item.id" v-for="item in paymentsTypesList">{{ item.name }}</option>
+                                  </select>
                               </div>
                           </div>
                           
@@ -222,6 +236,15 @@
                               <div class="form-group">
                                   <label class="control-label">Precio</label>
                                   <input type="text" class="form-control" v-model="post.price" />
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <label class="control-label">Descripcion</label>
+                                  <textarea type="text" class="form-control" v-model="post.description"></textarea>
                               </div>
                           </div>
                       </div>
