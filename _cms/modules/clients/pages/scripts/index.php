@@ -18,7 +18,6 @@ function findpostKey (postId) {
    }
    else
    {
-     // http://mv-operation.dataservix.com/forms/clients
      console.log('no se cargo la lista');
      location.hash = '#';
      location.reload();
@@ -356,7 +355,6 @@ var contactDelete = Vue.extend({
   }
 });
 
-
 var contactEdit = Vue.extend({
   template: '#contact-edit',
   data: function () {
@@ -409,9 +407,9 @@ var router = new VueRouter({routes:[
   { path: '/', component: List},
   { path: '/post/:post_id', component: post, name: 'post'},
   { path: '/add-post', component: Addpost},
-  { path: '/add-contact', component: AddContact, name: 'contact-add' },
   { path: '/post/:post_id/edit', component: postEdit, name: 'post-edit'},
   { path: '/post/:post_id/delete', component: postDelete, name: 'post-delete'},
+  { path: '/add-contact', component: AddContact, name: 'contact-add' },
   { path: '/post/:post_id/contact/:contact_id/delete', component: contactDelete, name: 'contact-delete'},
   { path: '/post/:post_id/contact/:contact_id/edit', component: contactEdit, name: 'contact-edit'},
 ]});

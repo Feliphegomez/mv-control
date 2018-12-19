@@ -56,13 +56,13 @@
     <h2>Nuevo</h2>
     <form v-on:submit="createpost">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="add-content">Codigo</label>
             <input class="form-control" type="text" id="add-content" v-model="post.code" />
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="form-group">
             <label for="add-content">Nombre</label>
             <input class="form-control" type="text" id="add-content" v-model="post.name" />
@@ -77,6 +77,7 @@
             </select>
           </div>
         </div>
+        
         <div class="col-md-3">
           <div class="form-group">
             <label for="add-content">Zona</label>
@@ -86,7 +87,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="add-content">Unidad de Medida</label>
             <select class="form-control" v-model="post.payment_type">
@@ -113,12 +114,32 @@
             </select>
           </div>
         </div>
-        <div class="col-md-2">
+        
+        <div class="col-md-4">
           <div class="form-group">
             <label for="add-content">Area</label>
             <input class="form-control" type="text" id="add-content" v-model="post.area" />
           </div>
         </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label">Departamento</label>
+                  <select class="form-control" v-model="post.department_city" @change="loadCityDepartment">
+                    <option value="0">Seleccione una opcion.</option>
+                    <option v-bind:value="item.id" v-for="item in departmentsCitysList">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label">Ciudad</label>
+                  <select class="form-control" v-model="post.city">
+                    <option value="0">Seleccione una opcion.</option>
+                    <option v-bind:value="item.id" v-for="item in citysList">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+        
         <div class="col-md-6">
           <div class="form-group">
             <label for="add-content">Direccion</label>
@@ -131,6 +152,7 @@
             <textarea class="form-control" type="text" id="add-content" v-model="post.address" disabled="" readonly=""></textarea>
           </div>
         </div>
+        
         <div class="col-md-4">
           <div class="form-group">
             <label for="add-content">Latitud</label>
@@ -150,6 +172,7 @@
           </div>
           </div>
         </div>
+      
         <div class="col-md-12">
           <div class="form-group">
             <label for="add-content">Mapa</label>
@@ -167,13 +190,13 @@
 <template id="post">
   <div>
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="add-content">Codigo</label>
             <input class="form-control" type="text" id="add-content" v-model="post.code" />
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="form-group">
             <label for="add-content">Nombre</label>
             <input class="form-control" type="text" id="add-content" v-model="post.name" />
@@ -188,6 +211,7 @@
             </select>
           </div>
         </div>
+        
         <div class="col-md-3">
           <div class="form-group">
             <label for="add-content">Zona</label>
@@ -197,7 +221,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
             <label for="add-content">Unidad de Medida</label>
             <select class="form-control" v-model="post.payment_type">
@@ -224,12 +248,32 @@
             </select>
           </div>
         </div>
-        <div class="col-md-2">
+        
+        <div class="col-md-4">
           <div class="form-group">
             <label for="add-content">Area</label>
             <input class="form-control" type="text" id="add-content" v-model="post.area" />
           </div>
         </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label">Departamento</label>
+                  <select class="form-control" v-model="post.department_city">
+                    <option value="0">Seleccione una opcion.</option>
+                    <option v-bind:value="item.id" v-for="item in departmentsCitysList">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label">Ciudad</label>
+                  <select class="form-control" v-model="post.city">
+                    <option value="0">Seleccione una opcion.</option>
+                    <option v-bind:value="item.id" v-for="item in citysList">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+        
         <div class="col-md-6">
           <div class="form-group">
             <label for="add-content">Direccion</label>
@@ -242,6 +286,7 @@
             <textarea class="form-control" type="text" id="add-content" v-model="post.description"></textarea>
           </div>
         </div>
+        
         <div class="col-md-4">
           <div class="form-group">
             <label for="add-content">Latitud</label>
@@ -275,13 +320,13 @@
     <h2>Modificar</h2>
     <form v-on:submit="updatepost">
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="form-group">
           <label for="add-content">Codigo</label>
           <input class="form-control" type="text" id="add-content" v-model="post.code" />
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="form-group">
           <label for="add-content">Nombre</label>
           <input class="form-control" type="text" id="add-content" v-model="post.name" />
@@ -296,6 +341,7 @@
           </select>
         </div>
       </div>
+      
       <div class="col-md-3">
         <div class="form-group">
           <label for="add-content">Zona</label>
@@ -305,7 +351,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="form-group">
           <label for="add-content">Unidad de Medida</label>
           <select class="form-control" v-model="post.payment_type">
@@ -332,12 +378,32 @@
           </select>
         </div>
       </div>
-      <div class="col-md-2">
+      
+      <div class="col-md-4">
         <div class="form-group">
           <label for="add-content">Area</label>
           <input class="form-control" type="text" id="add-content" v-model="post.area" />
         </div>
       </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label">Departamento</label>
+                  <select class="form-control" v-model="post.department_city" @change="loadCityDepartment">
+                    <option value="0">Seleccione una opcion.</option>
+                    <option v-bind:value="item.id" v-for="item in departmentsCitysList">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label class="control-label">Ciudad</label>
+                  <select class="form-control" v-model="post.city">
+                    <option value="0">Seleccione una opcion.</option>
+                    <option v-bind:value="item.id" v-for="item in citysList">{{ item.name }}</option>
+                  </select>
+              </div>
+          </div>
+      
       <div class="col-md-6">
         <div class="form-group">
           <label for="add-content">Direccion</label>
@@ -350,6 +416,7 @@
           <textarea class="form-control" type="text" id="add-content" v-model="post.address" disabled="" readonly=""></textarea>
         </div>
       </div>
+      
       <div class="col-md-4">
         <div class="form-group">
           <label for="add-content">Latitud</label>

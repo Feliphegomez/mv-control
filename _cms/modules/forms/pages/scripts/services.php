@@ -28,7 +28,8 @@ var List = Vue.extend({
   data: function () {
     return {
         posts: posts,
-        searchKey: ''
+        searchKey: '',
+        categoriesServicesList: [],
     };
   },
   created: function () {
@@ -37,10 +38,20 @@ var List = Vue.extend({
       params: {
         join:[
           'payments_types',
+          'categorys_services',
         ],
       }
     }).then(function (response) {
       posts = self.posts = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/categorys_services', {
+      params: {
+      }
+    }).then(function (response) {
+      self.categoriesServicesList = response.data.records;
     }).catch(function (error) {
       console.log(error);
     });
@@ -64,7 +75,8 @@ var postEdit = Vue.extend({
     data: function () {
         return {
             paymentsTypesList: [],
-            post: findpost(this.$route.params.post_id)
+            post: findpost(this.$route.params.post_id),
+            categoriesServicesList: []
         };
     },
     methods: {
@@ -72,6 +84,7 @@ var postEdit = Vue.extend({
             var post = this.post;
             var newPost = post;
             newPost.payment_type = post.payment_type.id;
+            newPost.category = post.category.id;
             console.log(JSON.stringify(newPost));
             /**/
             api.put('/services/'+post.id,newPost).then(function (response) {
@@ -89,6 +102,14 @@ var postEdit = Vue.extend({
           }
         }).then(function (response) {
           self.paymentsTypesList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        api.get('/categorys_services', {
+          params: {
+          }
+        }).then(function (response) {
+          self.categoriesServicesList = response.data.records;
         }).catch(function (error) {
           console.log(error);
         });
@@ -116,11 +137,13 @@ var Addpost = Vue.extend({
   data: function () {
     return {
       paymentsTypesList: [],
+      categoriesServicesList: [],
       post: {
         name: '',
         payment_type: 0,
         description: '',
-        price: ''
+        price: '',
+        category: 0
       }}
   },
   methods: {
@@ -138,7 +161,6 @@ var Addpost = Vue.extend({
       var idDepartment = e.target.value;
       //console.log(e.target.value);
       
-      /* ---------------- TIPOS DE CIUDADES (LISTA SELECT - OPTIONS - CON FILTRO) - INICIO ---------------- */
       api.get('/citys', {
         params: {
           filter: 'department,eq,' + idDepartment
@@ -148,7 +170,6 @@ var Addpost = Vue.extend({
       }).catch(function (error) {
         console.log(error);
       });
-      /* ---------------- TIPOS DE SOCIEDADES (LISTA SELECT - OPTIONS - CON FILTRO) - FIN ---------------- */
     }
   },
   created: function(){
@@ -158,6 +179,14 @@ var Addpost = Vue.extend({
       }
     }).then(function (response) {
       self.paymentsTypesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    api.get('/categorys_services', {
+      params: {
+      }
+    }).then(function (response) {
+      self.categoriesServicesList = response.data.records;
     }).catch(function (error) {
       console.log(error);
     });

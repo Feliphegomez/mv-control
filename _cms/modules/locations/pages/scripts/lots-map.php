@@ -35,14 +35,31 @@ var List = Vue.extend({
   template: '#post-list',
   data: function () {
     return {
+      markets: [],
+      marketsText: '',
       posts: posts,
       searchKey: ''
     };
   },
   created: function () {
     var self = this;
-    api.get('/lots').then(function (response) {
+    api.get('/lots', {
+      params: {
+        join:[
+          //'citys',
+          //'departments_citys',
+        ]
+      }
+    }).then(function (response) {
       posts = self.posts = response.data.records;
+      
+      for (var key = 0; key < posts.length; key++) {
+        if (posts[key].id > 0) {
+          self.marketsText += '&marker=' + posts[key].latitude + ',' + posts[key].longitude;
+          self.markets.push(posts[key].latitude + ',' + posts[key].longitude)
+        }
+      }
+      
     }).catch(function (error) {
       console.log(error);
     });
@@ -68,7 +85,11 @@ var post = Vue.extend({
       paymentsTypesList: [],
       fortnightsList: [],
       statusRegistrationsList: [],
+        departmentsCitysList: [],
+        citysList: [],
     };
+  },
+  methods: {
   },
   created: function(){
     var self = this;
@@ -117,7 +138,24 @@ var post = Vue.extend({
     }).catch(function (error) {
       console.log(error);
     });
-    
+      
+    api.get('/departments_citys', {
+      params: {
+      }
+    }).then(function (response) {
+      self.departmentsCitysList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    api.get('/citys', {
+      params: {
+          filter: 'department,eq,' + self.post.department_city
+      }
+    }).then(function (response) {
+      self.citysList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    }); 
   }
 });
 
@@ -133,6 +171,8 @@ var postEdit = Vue.extend({
       paymentsTypesList: [],
       fortnightsList: [],
       statusRegistrationsList: [],
+        departmentsCitysList: [],
+        citysList: [],
     };
   },
   methods: {
@@ -159,7 +199,7 @@ var postEdit = Vue.extend({
       mapSearch.get('/search', {
         params: {
           format: 'json',
-          //country: 'colombia',
+          country: 'colombia',
           q: searchText
         }
       }).then(function (response) {
@@ -182,15 +222,26 @@ var postEdit = Vue.extend({
       }).catch(function (error) {
         console.log(error);
       });
-    }
+    },
+    loadCityDepartment: function(e){
+        var self = this;
+        var idDepartment = e.target.value;
+      
+        api.get('/citys', {
+          params: {
+            filter: 'department,eq,' + idDepartment
+          }
+        }).then(function (response) {
+          self.citysList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
   },
   created: function(){
     var self = this;
     
-    api.get('/categorys_lots', {
-      params: {
-      }
-    }).then(function (response) {
+    api.get('/categorys_lots').then(function (response) {
       self.categoryLotsList = response.data.records;
     }).catch(function (error) {
       console.log(error);
@@ -232,6 +283,23 @@ var postEdit = Vue.extend({
       console.log(error);
     });
     
+    api.get('/departments_citys', {
+      params: {
+      }
+    }).then(function (response) {
+      self.departmentsCitysList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    api.get('/citys', {
+      params: {
+          filter: 'department,eq,' + self.post.department_city
+      }
+    }).then(function (response) {
+      self.citysList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });    
   }
 });
 
@@ -264,6 +332,8 @@ var Addpost = Vue.extend({
       paymentsTypesList: [],
       fortnightsList: [],
       statusRegistrationsList: [],
+        departmentsCitysList: [],
+        citysList: [],
       post: {
         code: '',
         name: '',
@@ -273,6 +343,8 @@ var Addpost = Vue.extend({
         payment_type: 0,
         fortnight: 0,
         status_registration: 0,
+        department_city: 0,
+        city: 0,
       }
     }
   },
@@ -291,12 +363,13 @@ var Addpost = Vue.extend({
     },
     searchAddressMaps: function(){
       var self = this;
-      searchText = self.addressRepair;      
+      searchText = self.addressRepair;
       
       mapSearch.get('/search', {
         params: {
           format: 'json',
-          //country: 'colombia',
+          //city: self.post.city,
+          country: 'colombia',
           q: searchText
         }
       }).then(function (response) {
@@ -319,6 +392,23 @@ var Addpost = Vue.extend({
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    loadCityDepartment: function(e){
+      var self = this;
+      var idDepartment = e.target.value;
+      //console.log(e.target.value);
+      
+      /* ---------------- TIPOS DE CIUDADES (LISTA SELECT - OPTIONS - CON FILTRO) - INICIO ---------------- */
+      api.get('/citys', {
+        params: {
+          filter: 'department,eq,' + idDepartment
+        }
+      }).then(function (response) {
+        self.citysList = response.data.records;
+      }).catch(function (error) {
+        console.log(error);
+      });
+      /* ---------------- TIPOS DE SOCIEDADES (LISTA SELECT - OPTIONS - CON FILTRO) - FIN ---------------- */
     }
   },
   created: function(){
@@ -369,6 +459,14 @@ var Addpost = Vue.extend({
       console.log(error);
     });
     
+    api.get('/departments_citys', {
+      params: {
+      }
+    }).then(function (response) {
+      self.departmentsCitysList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 });
 

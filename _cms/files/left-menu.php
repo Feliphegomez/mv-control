@@ -9,7 +9,7 @@
         <li class="active"><a href="/">Dashboard</a></li>
         <!-- <li><a href="/forms/new-client">Nuevo Cliente Estilo 1</a></li> -->
         
-        <li><a href="/forms/new-activity">Nueva Actividad</a></li>
+        <!-- <li><a href="/forms/new-activity">Nueva Actividad</a></li> -->
         
         
         <li>
@@ -33,10 +33,11 @@
         <li>
 			<a href="#locationsSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-globe"></i> Locaciones </a>
             <ul class="collapse list-unstyled" id="locationsSubmenu">
-                <li><a href="/forms/departments-citys"> <i class="fa fa-map-marker"></i> Departamentos</a></li>
-                <li><a href="/forms/citys"> <i class="fa fa-thumb-tack"></i> Ciudades</a></li>
-                <li><a href="/forms/lots"> <i class="fa fa-map-signs"></i> Lotes</a></li>
-                <li><a href="/forms/categorys-lots"> <i class="fa fa-bars"></i> Categorias de Lotes</a></li>
+                <li><a href="/locations/lots"> <i class="fa fa-map-signs"></i> Lotes</a></li>
+                <li><a href="/locations/lots-map"> <i class="fa fa-map"></i> Mapa de Lotes</a></li>
+                <li><a href="/locations/departments-citys"> <i class="fa fa-map-marker"></i> Departamentos</a></li>
+                <li><a href="/locations/citys"> <i class="fa fa-thumb-tack"></i> Ciudades</a></li>
+                <li><a href="/locations/categorys-lots"> <i class="fa fa-bars"></i> Categorias de Lotes</a></li>
             </ul>
         </li>
         <li>
@@ -51,7 +52,9 @@
         <li>
 			<a href="#vehiclesSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-bus"></i> Vehículos </a>
             <ul class="collapse list-unstyled" id="vehiclesSubmenu">
+                <li><a href="/forms/vehicles"> <i class="fa fa-bars"></i> Vehículos</a></li>
                 <li><a href="/forms/categorys-vehicles"> <i class="fa fa-bars"></i> Categorias</a></li>
+                <li><a href="/forms/fuel-types"> <i class="fa fa-bars"></i> Combustibles</a></li>
                 
             </ul>
         </li>
@@ -77,6 +80,7 @@
                 <li><a href="/forms/novelty-types">Tipos de Novedades</a></li>
                 <li><a href="/forms/fortnights">Quincenas</a></li>
                 <li><a href="/forms/status-registrations"> Estados de Registros</a></li>
+                <li><a href="/forms/contractors"> Contratistas</a></li>
             </ul>
         </li>
     </ul>

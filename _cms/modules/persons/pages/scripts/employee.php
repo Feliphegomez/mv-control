@@ -33,9 +33,16 @@ var List = Vue.extend({
     api.get('/persons', {
         params: {
             join: [
+                'status_employee',
                 'identification_types',
                 'eps',
                 'arl',
+                'blood_types',
+                'blood_rhs',
+                'pension_funds',
+                'compensation_funds',
+                'severance_funds',
+                'contacts_employee',
             ]
         }
     }).then(function (response) {
@@ -61,18 +68,124 @@ var post = Vue.extend({
 var postEdit = Vue.extend({
   template: '#post-edit',
   data: function () {
-    return {post: findpost(this.$route.params.post_id)};
+    return {
+      post: findpost(this.$route.params.post_id),
+      identificationTypesList: [],
+      bloodTypesList: [],
+      bloodRHsList: [],
+      epsList: [],
+      arlList: [],
+      statusEmployeeList: [],
+      pensionFundsList: [],
+      compensationFundsList: [],
+      severanceFundsList: [],
+    };
   },
   methods: {
     updatepost: function () {
       var post = this.post;
-      api.put('/persons/'+post.id,post).then(function (response) {
+      var postTemp = post;
+      postTemp.identification_type = post.identification_type.id;
+      postTemp.blood_type = post.blood_type.id;
+      postTemp.blood_rh = post.blood_rh.id;
+      postTemp.status = post.status.id;
+      postTemp.eps = post.eps.id;
+      postTemp.arl = post.arl.id;
+      postTemp.pension_fund = post.pension_fund.id;
+      postTemp.compensation_fund = post.compensation_fund.id;
+      postTemp.severance_fund = post.severance_fund.id;
+      
+      api.put('/persons/'+post.id, postTemp).then(function (response) {
         console.log(response.data);
       }).catch(function (error) {
         console.log(error);
       });
       router.push('/');
     }
+  },
+  created: function(){
+    var self = this;
+    
+    api.get('/identification_types', {
+      params: {
+      }
+    }).then(function (response) {
+      self.identificationTypesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/blood_types', {
+      params: {
+      }
+    }).then(function (response) {
+      self.bloodTypesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/blood_rhs', {
+      params: {
+      }
+    }).then(function (response) {
+      self.bloodRHsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/eps', {
+      params: {
+      }
+    }).then(function (response) {
+      self.epsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/arl', {
+      params: {
+      }
+    }).then(function (response) {
+      self.arlList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/status_employee', {
+      params: {
+      }
+    }).then(function (response) {
+      self.statusEmployeeList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/pension_funds', {
+      params: {
+      }
+    }).then(function (response) {
+      self.pensionFundsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/compensation_funds', {
+      params: {
+      }
+    }).then(function (response) {
+      self.compensationFundsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/severance_funds', {
+      params: {
+      }
+    }).then(function (response) {
+      self.severanceFundsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 });
 var postDelete = Vue.extend({
@@ -95,7 +208,18 @@ var postDelete = Vue.extend({
 var Addpost = Vue.extend({
   template: '#add-post',
   data: function () {
-    return {post: {content: '', user_id: 1, category_id: 1}}
+    return {
+      post: {content: '', user_id: 1, category_id: 1},
+      identificationTypesList: [],
+      bloodTypesList: [],
+      bloodRHsList: [],
+      epsList: [],
+      arlList: [],
+      statusEmployeeList: [],
+      pensionFundsList: [],
+      compensationFundsList: [],
+      severanceFundsList: [],
+    }
   },
   methods: {
     createpost: function() {
@@ -107,14 +231,221 @@ var Addpost = Vue.extend({
       });
       router.push('/');
     }
+  },
+  created: function(){
+    var self = this;
+    
+    api.get('/identification_types', {
+      params: {
+      }
+    }).then(function (response) {
+      self.identificationTypesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/blood_types', {
+      params: {
+      }
+    }).then(function (response) {
+      self.bloodTypesList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/blood_rhs', {
+      params: {
+      }
+    }).then(function (response) {
+      self.bloodRHsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/eps', {
+      params: {
+      }
+    }).then(function (response) {
+      self.epsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/arl', {
+      params: {
+      }
+    }).then(function (response) {
+      self.arlList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/status_employee', {
+      params: {
+      }
+    }).then(function (response) {
+      self.statusEmployeeList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/pension_funds', {
+      params: {
+      }
+    }).then(function (response) {
+      self.pensionFundsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/compensation_funds', {
+      params: {
+      }
+    }).then(function (response) {
+      self.compensationFundsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
+    api.get('/severance_funds', {
+      params: {
+      }
+    }).then(function (response) {
+      self.severanceFundsList = response.data.records;
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 });
+  
+  
+var AddContact = Vue.extend({
+  template: '#add-contact',
+  data: function () {
+    return {
+      employee_id: 0,
+      contactData: {
+        employee: 0,
+        first_name: '',
+        mail: '',
+      }
+    }
+  },
+  methods: {
+    createContact: function() {
+      var self = this;
+      var post = self.contactData;
+      
+      console.log(post);
+      api.post('/contacts_employee',post).then(function (response) {
+        self.contactData.id = response.data;
+        var Temp = findpost(post.employee)
+        Temp.contacts_employee.push(post);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(JSON.stringify(error));
+      });
+      
+      router.push('/post/' + post.employee  + '/edit');
+      
+    },
+  },
+  created: function(){
+    var self = this;
+    self.employee_id = self.$route.params.post_id;
+    self.contactData.employee = self.employee_id;
+    
+    if(self.contactData.employee > 0){
+    }
+    else{
+      router.push('/');
+    }
+  },
+});
+
+var contactDelete = Vue.extend({
+  template: '#contact-delete',
+  data: function () {
+    return {
+      contact_id: this.$route.params.contact_id,
+      employee_id: this.$route.params.post_id,
+    };
+  },
+  methods: {
+    deletecontact: function () {
+      var employeeId = this.employee_id;
+      var contactId = this.contact_id;
+      api.delete('/contacts_employee/' + contactId).then(function (response) {
+        console.log(response.data);
+        router.push('/');
+        location.reload();
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+      router.push('/post/' + employeeId  + '/edit');
+    }
+  }
+});
+
+var contactEdit = Vue.extend({
+  template: '#contact-edit',
+  data: function () {
+    return {
+        employee_id: 0,
+        contact_id: 0,
+        contactData: {
+          description: '',
+          employee: 0,
+          first_name: '',
+          mail: '',
+        }
+    };
+  },
+  methods: {
+    updatecontact: function () {
+      var self = this;
+      
+      api.put('/contacts_employee/' + self.contact_id, self.contactData).then(function (response) {
+        console.log(response.data);
+      }).catch(function (error) {
+        console.log(error);
+      });
+      router.push('/post/' + self.employee_id  + '/edit');
+      //location.reload();
+    }
+  },
+  created: function(){
+    var self = this;
+    self.contactData.employee = self.employee_id = self.$route.params.post_id;
+    self.contactData.id = self.contact_id = self.$route.params.contact_id;
+    var Temp3 = findpost(self.employee_id);
+    if(Temp3.contacts_employee.length > 0)
+     {
+      for (var key = 0; key < Temp3.contacts_employee.length; key++) {
+        if (Temp3.contacts_employee[key].id == self.contact_id) {
+          self.contactData = Temp3.contacts_employee[key];
+        }
+      }
+     }
+    else
+    {
+      console.log('Error retornar');
+    }
+    
+  },
+});
+
+  
 var router = new VueRouter({routes:[
   { path: '/', component: List},
   { path: '/post/:post_id', component: post, name: 'post'},
   { path: '/add-post', component: Addpost},
   { path: '/post/:post_id/edit', component: postEdit, name: 'post-edit'},
-  { path: '/post/:post_id/delete', component: postDelete, name: 'post-delete'}
+  { path: '/post/:post_id/delete', component: postDelete, name: 'post-delete'},
+  { path: '/add-contact', component: AddContact, name: 'contact-add' },
+  { path: '/post/:post_id/contact/:contact_id/delete', component: contactDelete, name: 'contact-delete'},
+  { path: '/post/:post_id/contact/:contact_id/edit', component: contactEdit, name: 'contact-edit'},
 ]});
 app = new Vue({
   router:router

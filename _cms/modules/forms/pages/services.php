@@ -29,7 +29,8 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Tipo de cobro</th>
+        <th>Categoria</th>
+        <th>Unidad de Medida</th>
         <th>Precio</th>
         <th class="col-sm-2">Actions</th>
       </tr>
@@ -41,7 +42,8 @@
       <tr v-else v-for="post in filteredposts">
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.id }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.name }}</router-link></td>
-        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.payment_type.name }}</router-link></td>
+        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.category.name }}</router-link></td>
+        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.payment_type.name }} - {{ post.payment_type.title }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.price }}</router-link></td>
         <td>
           <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'post-edit', params: {post_id: post.id}}">Modificar</router-link>
@@ -80,18 +82,28 @@
                                   <input type="text" class="form-control" v-model="post.name" />
                               </div>
                           </div>
+                        
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label class="control-label">Categoria</label>
+                                  <select class="form-control" v-model="post.category">
+                                    <option value="0">Seleccione una opcion.</option>
+                                    <option v-bind:value="item.id" v-for="item in categoriesServicesList">{{ item.name }}</option>
+                                  </select>
+                              </div>
+                          </div>
 
                           <div class="col-md-4">
                               <div class="form-group">
-                                  <label class="control-label">Tipo de cobro</label>
+                                  <label class="control-label">Unidad de medida</label>
                                   <select class="form-control" v-model="post.payment_type">
-                                    <option value="" selected="selected">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in paymentsTypesList">{{ item.name }}</option>
+                                    <option value="0">Seleccione una opcion.</option>
+                                    <option v-bind:value="item.id" v-for="item in paymentsTypesList">{{ item.name }} - {{ item.title }}</option>
                                   </select>
                               </div>
                           </div>
                           
-                          <div class="col-md-4">
+                          <div class="col-md-6">
                               <div class="form-group">
                                   <label class="control-label">Precio</label>
                                   <input type="text" class="form-control" v-model="post.price" />
@@ -100,7 +112,7 @@
                       </div>
                       
                       <div class="row">
-                          <div class="col-lg-12">
+                          <div class="col-lg-6">
                               <div class="form-group">
                                   <label class="control-label">Descripcion</label>
                                   <textarea type="text" class="form-control" v-model="post.description"></textarea>
@@ -154,14 +166,23 @@
 
                           <div class="col-md-4">
                               <div class="form-group">
-                                  <label class="control-label">Tipo de cobro</label>
+                                  <label class="control-label">Categoria</label>
                                   <select class="form-control" disabled="" readonly="">
-                                    <option value="" selected="selected">{{ post.payment_type.name }}</option>
+                                    <option value="" >{{ post.category.name }}</option>
                                   </select>
                               </div>
                           </div>
                           
                           <div class="col-md-4">
+                              <div class="form-group">
+                                  <label class="control-label">Tipo de cobro</label>
+                                  <select class="form-control" disabled="" readonly="">
+                                    <option value="" >{{ post.payment_type.name }} - {{ post.payment_type.title }}</option>
+                                  </select>
+                              </div>
+                          </div>
+                          
+                          <div class="col-md-6">
                               <div class="form-group">
                                   <label class="control-label">Precio</label>
                                   <input type="text" class="form-control" v-model="post.price" disabled="" readonly="" />
@@ -171,7 +192,7 @@
                         
                         
                       <div class="row">
-                          <div class="col-lg-12">
+                          <div class="col-lg-6">
                               <div class="form-group">
                                   <label class="control-label">Descripcion</label>
                                   <textarea type="text" class="form-control" v-model="post.description" disabled="" readonly=""></textarea>
@@ -222,12 +243,23 @@
                               </div>
                           </div>
 
+                        
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label class="control-label">Categoria</label>
+                                  <select class="form-control" v-model="post.category.id">
+                                    <option value="0">Seleccione una opcion.</option>
+                                    <option v-bind:value="item.id" v-for="item in categoriesServicesList">{{ item.name }}</option>
+                                  </select>
+                              </div>
+                          </div>
+                        
                           <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Tipo de cobro</label>
                                   <select class="form-control" v-model="post.payment_type.id">
                                     <option value="" selected="selected">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in paymentsTypesList">{{ item.name }}</option>
+                                    <option v-bind:value="item.id" v-for="item in paymentsTypesList">{{ item.name }} - {{ item.title }}</option>
                                   </select>
                               </div>
                           </div>
