@@ -214,26 +214,10 @@
                                 <div class="col-lg-12">
                                       <button type="submit" class="btn btn-primary">Crear</button>
                                       <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
-                                    </form>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </div>
-                <br>
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>CONDUCTORES:</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <br>
                 <div class="card card-default">
@@ -245,11 +229,13 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-12 text-center">
+                              Debes crear primero el vehiculo antes de poder agregar la tripulacion.
                             </div>
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
         </div>
     </div>
@@ -289,7 +275,7 @@
                             <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Categoria de vehículo</label>
-                                  <select class="form-control" v-model="post.category.id">
+                                  <select class="form-control" v-model="post.category">
                                     <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in categoryVehiclesList">{{ item.name }}</option>
                                   </select>
@@ -305,7 +291,7 @@
                             <div class="col-md-3">
                               <div class="form-group">
                                   <label class="control-label">Combustible</label>
-                                  <select class="form-control" v-model="post.fuel.id">
+                                  <select class="form-control" v-model="post.fuel">
                                     <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in fuelsVehiclesList">{{ item.name }}</option>
                                   </select>
@@ -397,48 +383,11 @@
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label class="control-label">Estado</label>
-                                  <select class="form-control" v-model="post.status.id">
+                                  <select class="form-control" v-model="post.status">
                                     <option value="0">Seleccione una opcion.</option>
                                     <option v-bind:value="item.id" v-for="item in statusVehiclesList">{{ item.name }}</option>
                                   </select>
                               </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>CONDUCTORES:</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <table class="table table-responsive">
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>identification_number</th>
-                                        <th>mail</th>
-                                        <th>number_phone</th>
-                                        <th>number_mobile</th>
-                                        <th>company_mail</th>
-                                        <th>company_number_phone</th>
-                                        <th>company_number_mobile</th>
-                                    </tr>
-                                    <tr v-for="driver in post.drivers_vehicles">
-                                        <td>{{ driver.first_name }} {{ driver.second_name }} {{ driver.surname }} {{ driver.second_surname }} </td>
-                                        <td>{{ driver.identification_number }}</td>
-                                        <td>{{ driver.mail }}</td>
-                                        <td>{{ driver.number_phone }}</td>
-                                        <td>{{ driver.number_mobile }}</td>
-                                        <td>{{ driver.company_mail }}</td>
-                                        <td>{{ driver.company_number_phone }}</td>
-                                        <td>{{ driver.company_number_mobile }}</td>
-                                    </tr>
-                                </table>
                             </div>
                         </div>
                     </div>
@@ -453,11 +402,31 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-12">
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <th>Cargo</th>
+                                        <th>Nombre</th>
+                                        <th></th>
+                                    </tr>
+                                  
+                                    <tr v-for="driver in post.crew_vehicles">
+                                        <td>{{ driver.charge.name }} </td>
+                                        <td>                                        
+                                          <select class="form-control" v-model="driver.employee" disabled="">
+                                            <option value="0">Seleccione una opcion.</option>
+                                            <option v-bind:value="item.id" v-for="item in employeeList">
+                                              {{ item.first_name }} {{ item.second_name }} {{ item.surname }} {{ item.second_surname }}
+                                            </option>
+                                          </select>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
             <div class="col-lg-12">
                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
@@ -502,7 +471,7 @@
                                 <div class="col-md-4">
                                   <div class="form-group">
                                       <label class="control-label">Categoria de vehículo</label>
-                                      <select class="form-control" v-model="post.category.id">
+                                      <select class="form-control" v-model="post.category">
                                         <option value="0">Seleccione una opcion.</option>
                                         <option v-bind:value="item.id" v-for="item in categoryVehiclesList">{{ item.name }}</option>
                                       </select>
@@ -518,7 +487,7 @@
                                 <div class="col-md-3">
                                   <div class="form-group">
                                       <label class="control-label">Combustible</label>
-                                      <select class="form-control" v-model="post.fuel.id">
+                                      <select class="form-control" v-model="post.fuel">
                                         <option value="0">Seleccione una opcion.</option>
                                         <option v-bind:value="item.id" v-for="item in fuelsVehiclesList">{{ item.name }}</option>
                                       </select>
@@ -610,7 +579,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                       <label class="control-label">Estado</label>
-                                      <select class="form-control" v-model="post.status.id">
+                                      <select class="form-control" v-model="post.status">
                                         <option value="0">Seleccione una opcion.</option>
                                         <option v-bind:value="item.id" v-for="item in statusVehiclesList">{{ item.name }}</option>
                                       </select>
@@ -624,54 +593,10 @@
                                 <div class="col-lg-12">
                                       <button type="submit" class="btn btn-primary">Guardar</button>
                                       <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
-                                    </form>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </div>
-                <br>
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>CONDUCTORES:</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <router-link class="btn btn-success btn-xs" v-bind:to="{name: 'driver-add', params: {post_id: post.id}}">
-                                    <i class="fa fa-plus-square"></i> Crear 
-                                </router-link>
-                                <table class="table table-responsive">
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>identification_number</th>
-                                        <th>mail</th>
-                                        <th>number_phone</th>
-                                        <th>number_mobile</th>
-                                        <th>company_mail</th>
-                                        <th>company_number_phone</th>
-                                        <th>company_number_mobile</th>
-                                        <th>actions</th>
-                                    </tr>
-                                    <tr v-for="driver in post.drivers_vehicles">
-                                        <td>{{ driver.first_name }} {{ driver.second_name }} {{ driver.surname }} {{ driver.second_surname }} </td>
-                                        <td>{{ driver.identification_number }}</td>
-                                        <td>{{ driver.mail }}</td>
-                                        <td>{{ driver.number_phone }}</td>
-                                        <td>{{ driver.number_mobile }}</td>
-                                        <td>{{ driver.company_mail }}</td>
-                                        <td>{{ driver.company_number_phone }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-xs">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <br>
                 <div class="card card-default">
@@ -683,11 +608,39 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-12">
+                                <router-link class="btn btn-success btn-xs" v-bind:to="{name: 'driver-add', params: {post_id: post.id}}">
+                                    <i class="fa fa-plus-square"></i> Crear 
+                                </router-link>
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <th>Cargo</th>
+                                        <th>Nombre</th>
+                                        <th></th>
+                                    </tr>
+                                  
+                                    <tr v-for="driver in post.crew_vehicles">
+                                        <td>{{ driver.charge.name }} </td>
+                                        <td>                                        
+                                          <select class="form-control" v-model="driver.employee" disabled="">
+                                            <option value="0">Seleccione una opcion.</option>
+                                            <option v-bind:value="item.id" v-for="item in employeeList">
+                                              {{ item.first_name }} {{ item.second_name }} {{ item.surname }} {{ item.second_surname }}
+                                            </option>
+                                          </select>
+                                        </td>
+                                        <td>
+                                           <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'driver-delete', params: {post_id: post.id, driver_id: driver.id }}">
+                                                <i class="fa fa-trash"></i> Eliminar
+                                            </router-link>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
         </div>
     </div>
@@ -696,7 +649,7 @@
 <template id="post-delete">
   <div>
     <h2>Delete post {{ post.id }}</h2>
-    <form v-on:submit="deletepost">
+    <form v-on:submit="deletepost" method="POST">
       <p>The action cannot be undone.</p>
       <button type="submit" class="btn btn-danger">Eliminar</button>
       <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
@@ -712,7 +665,7 @@
                     <div class="card-header">
                         <h4 class="card-title">
                             <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>CONDUCTORES:</b>
+                            <b>AGREGAR:</b>
                         </h4>
                     </div>
                     <form v-on:submit="createpost" method="POST">
@@ -721,7 +674,7 @@
                                 <div class="col-md-4">
                                   <div class="form-group">
                                       <label class="control-label">Vehículo</label>
-                                      <select class="form-control" v-model="post.vehicle">
+                                      <select class="form-control" v-model="post.vehicle" disabled="">
                                         <option value="0">Seleccione una opcion.</option>
                                         <option v-bind:value="item.id" v-for="item in vehiclesList">{{ item.license_plate }} {{ item.brand }} {{ item.model }}</option>
                                       </select>
@@ -738,6 +691,17 @@
                                       </select>
                                   </div>
                                 </div>
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label class="control-label">Cargo</label>
+                                      <select class="form-control" v-model="post.charge">
+                                        <option value="0">Seleccione una opcion.</option>
+                                        <option v-bind:value="item.id" v-for="item in employeeChargesList">
+                                            {{ item.name }}
+                                        </option>
+                                      </select>
+                                  </div>
+                                </div>
                             </div>
                         </div>
                               
@@ -745,8 +709,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                       <button type="submit" class="btn btn-primary">Crear</button>
-                                      <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
-                                    </form>
+                                      <router-link class="btn btn-primary" v-bind:to="'/post/' + post_id + '/edit'">Cancelar</router-link>
                                 </div>
                             </div>
                         </div>
@@ -756,4 +719,15 @@
             </div>
         </div>
     </div>
+</template>
+
+<template id="driver-delete">
+  <div>
+    <h2>Eliminar {{ driver_id }}</h2>
+    <form v-on:submit="deletepost" method="POST">
+      <p>Se va a eliminar el conductor de manera permanente.</p>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+      <router-link class="btn btn-primary" v-bind:to="'/post/' + post_id + '/edit'">Cancelar</router-link>
+    </form>
+  </div>
 </template>

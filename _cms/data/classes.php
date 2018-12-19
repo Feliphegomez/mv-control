@@ -103,6 +103,7 @@ class DataPage
             foreach($_POST As $k=>$v)
 			{
                 $this->fields['post'][$k] = $v;
+                unset($_POST[$k]);
             }
         }
         

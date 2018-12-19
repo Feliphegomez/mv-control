@@ -50,11 +50,11 @@
             </ul>
         </li>
         <li>
-			<a href="#vehiclesSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-bus"></i> Vehículos </a>
+			<a href="#vehiclesSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-bus"></i> Transportes </a>
             <ul class="collapse list-unstyled" id="vehiclesSubmenu">
-                <li><a href="/forms/vehicles"> <i class="fa fa-bars"></i> Vehículos</a></li>
-                <li><a href="/forms/categorys-vehicles"> <i class="fa fa-bars"></i> Categorias</a></li>
-                <li><a href="/forms/fuel-types"> <i class="fa fa-bars"></i> Combustibles</a></li>
+                <li><a href="/transports/vehicles"> <i class="fa fa-truck"></i> Vehículos</a></li>
+                <li><a href="/transports/categorys-vehicles"> <i class="fa fa-list-alt"></i> Categorias</a></li>
+                <li><a href="/transports/fuel-types"> <i class="fa fa-tint"></i> Combustibles</a></li>
                 
             </ul>
         </li>

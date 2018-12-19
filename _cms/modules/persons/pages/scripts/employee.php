@@ -209,7 +209,34 @@ var Addpost = Vue.extend({
   template: '#add-post',
   data: function () {
     return {
-      post: {content: '', user_id: 1, category_id: 1},
+      post: {
+          first_name: '',
+          second_name: '',
+          surnname: '',
+          second_name: '',
+          identification_type: 0,
+          identification_number: '',
+          identification_date_expedition: '',
+          birthdate: '',
+          blood_type: 0,
+          blood_rh: 0,
+          mail: 'empleado@sincorreo.com',
+          number_phone: '',
+          number_mobile: '',
+          company_date_entry: '',
+          company_date_out: '',
+          company_mail: '',
+          company_number_phone: '',
+          company_number_mobile: '',
+          avatar: 0,
+          status: 0,
+          eps: 0,
+          arl: 0,
+          pension_fund: 0,
+          compensation_fund: 0,
+          severance_fund: 0,
+          observations: '',
+      },
       identificationTypesList: [],
       bloodTypesList: [],
       bloodRHsList: [],
@@ -224,12 +251,16 @@ var Addpost = Vue.extend({
   methods: {
     createpost: function() {
       var post = this.post;
-      api.post('/persons',post).then(function (response) {
+      api.post('/persons', post).then(function (response) {
         post.id = response.data;
+        router.push('/');
       }).catch(function (error) {
-        console.log(error);
+          console.log(error);
+          console.log(error.response);
+          console.log(JSON.stringify(error));
+          //console.log(JSON.stringify(error.response));
+          //console.log(JSON.stringify(post));
       });
-      router.push('/');
     }
   },
   created: function(){
