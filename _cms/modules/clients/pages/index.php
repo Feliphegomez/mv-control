@@ -318,7 +318,7 @@
                 <div class="card-header">
                     <h4 class="card-title">
                         <i class="glyphicon glyphicon-lock text-gold"></i>
-                        <b>INFORMACION DEL CLIENTE: # {{ post.id }}</b>
+                        <b>INFORMACION BASICA</b>
                     </h4>
                 </div>
                 <div>
@@ -439,9 +439,17 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-12">
-                                <label class="control-label">Campo para Adjuntos</label>
+                            <div class="col-lg-8">
+                                <label class="control-label">Comentarios / Observacion</label>
                                 <textarea class="form-control" v-model="post.comments" readonly="" disabled=""></textarea>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="control-label">Habilitar interventoria</label>
+                                <select class="form-control" v-model="post.enable_audit" readonly="" disabled="">
+                                    <option value="0">Desabilitado</option>
+                                    <option value="1">Habilitado</option>
+                                </select>
+                                
                             </div>
                         </div>
 
@@ -531,6 +539,46 @@
                             </div>
                         </div>
 
+                        <br>
+                        <div class="card card-default" v-if="post.enable_audit == 1">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    <i class="glyphicon glyphicon-lock text-gold"></i>
+                                    <b>INTERVENTORES</b>
+                                </h4>
+                            </div>
+                            <div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                          <table class="table table-responsive">
+                                            <tr>
+                                              <th>Nombre Completo</th>
+                                              <th>Identificacion</th>
+                                              <th>Correo Electronico</th>
+                                              <th>Numero de Telefono</th>
+                                              <th>Numero de Movil</th>
+                                              <th>Cargo</th>
+                                              <th>Area</th>
+                                              <th>Observaciones</th>
+                                            </tr>
+                                            <tr v-for="contact in post.inspectors_clients">
+                                              <td>{{ contact.first_name }} {{ contact.second_name }} {{ contact.surname }} {{ contact.second_surname }}</td>
+                                              <td>{{ contact.identification_number }}</td>
+                                              <td>{{ contact.mail }}</td>
+                                              <td>{{ contact.number_phone }}</td>
+                                              <td>{{ contact.number_mobile }}</td>
+                                              <td>{{ contact.charge }}</td>
+                                              <td>{{ contact.area }}</td>
+                                              <td>{{ contact.description }}</td>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="pull-right">
@@ -555,7 +603,7 @@
               <div class="card-header">
                   <h4 class="card-title">
                       <i class="glyphicon glyphicon-lock text-gold"></i>
-                      <b>MODIFICAR CLIENTE:</b>
+                      <b>INFORMACION BASICA</b>
                   </h4>
               </div>
               <div>
@@ -675,15 +723,20 @@
                           </div>                        
                       </div>
 
-                      <div class="row">
-                          <div class="col-lg-12">
-                              <label class="control-label">Observacion / Notas adiccionales</label>
-                              <div class="input-group">
-                                  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                  <textarea class="form-control" v-model="post.comments"></textarea>
-                              </div>
-                          </div>
-                      </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <label class="control-label">Comentarios / Observacion</label>
+                            <textarea class="form-control" v-model="post.comments"></textarea>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label">Habilitar interventoria</label>
+                            <select class="form-control" v-model="post.enable_audit" >
+                                <option value="0">Desabilitado</option>
+                                <option value="1">Habilitado</option>
+                            </select>
+                            
+                        </div>
+                    </div>
                     <!--
                       <div class="row">
                           <div class="col-lg-12">
@@ -784,6 +837,58 @@
                                                       <td>
                                                         <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'contact-edit', params: {post_id: post.id, contact_id: contact.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
                                                         <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'contact-delete', params: { post_id: post.id, contact_id: contact.id }}"><i class="fa fa-trash" aria-hidden="true"></i></router-link>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                      <br />
+                      <div class="row" v-if="post.enable_audit == 1">
+                          <div class="col-lg-12">
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <h4 class="card-title">
+                                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                                            <b>INTERVENTORES</b>
+                                        </h4>
+                                    </div>
+                                    <div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                  <router-link class="btn btn-success btn-xs" v-bind:to="{name: 'inspector-add', params: {post_id: post.id}}"><i class="fa fa-plus-square"></i> Crear </router-link>
+                                                  <hr>
+                                                  <table class="table table-responsive">
+                                                    <tr>
+                                                      <th>Nombre Completo</th>
+                                                      <th>Identificacion</th>
+                                                      <th>Correo Electronico</th>
+                                                      <th>Numero de Telefono</th>
+                                                      <th>Numero de Movil</th>
+                                                      <th>Cargo</th>
+                                                      <th>Area</th>
+                                                      <th>Observaciones</th>
+                                                      <th>Actions</th>
+                                                    </tr>
+                                                    <tr v-for="inspector in post.inspectors_clients">
+                                                      <td>{{ inspector.first_name }} {{ inspector.second_name }} {{ inspector.surname }} {{ inspector.second_surname }}</td>
+                                                      <td>{{ inspector.identification_number }}</td>
+                                                      <td>{{ inspector.mail }}</td>
+                                                      <td>{{ inspector.number_phone }}</td>
+                                                      <td>{{ inspector.number_mobile }}</td>
+                                                      <td>{{ inspector.charge }}</td>
+                                                      <td>{{ inspector.area }}</td>
+                                                      <td>{{ inspector.description }}</td>
+                                                      <td>
+                                                        <router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'inspector-edit', params: {post_id: post.id, inspector_id: inspector.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
+                                                        <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'inspector-delete', params: { post_id: post.id, inspector_id: inspector.id }}"><i class="fa fa-trash" aria-hidden="true"></i></router-link>
                                                       </td>
                                                     </tr>
                                                   </table>
@@ -1034,6 +1139,237 @@
                                               <div class="form-group">
                                                   <label class="control-label">Descripcion</label>
                                                   <textarea class="form-control" v-model="contactData.description"></textarea>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="pull-right">
+                                                  <button type="submit" class="btn btn-primary">Guardar</button>
+                                                  <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="add-inspector">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>NUEVO inspector</b>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form v-on:submit="createinspector" method="POST">
+                                        <div class="row">
+                                          <input type="hidden" class="form-control" v-model="inspectorData.client" />
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label"># Identificacion</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.identification_number" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Nombre</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.first_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Nombre</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.second_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Apellido</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.surname" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Apellido</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.second_surname" />
+                                              </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label">Correo Electronico</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.mail" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Fijo</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.number_phone" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Movil</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.number_mobile" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Cargo</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.charge" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Area</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.area" />
+                                              </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Descripcion</label>
+                                                    <textarea class="form-control" v-model="inspectorData.description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="pull-right">
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="inspector-delete">
+  <div>
+    <h2>Eliminar inspector {{ inspector_id }}</h2>
+    <form v-on:submit="deleteinspector">
+      <p>Se va a eliminar el inspector permanentemente, confirme en el boton ROJO para eliminar.</p>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+                <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+    </form>
+  </div>
+</template>
+
+<template id="inspector-edit">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>EDITAR inspector</b>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form v-on:submit="updateinspector">
+                                      <div class="row">
+                                          <input type="hidden" class="form-control" v-model="inspectorData.id" />
+                                          <input type="hidden" class="form-control" v-model="inspectorData.client" />
+                                        
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label"># Identificacion</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.identification_number" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Nombre</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.first_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Nombre</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.second_name" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Primer Apellido</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.surname" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Segundo Apellido</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.second_surname" />
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="row">
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label class="control-label">Correo Electronico</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.mail" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Fijo</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.number_phone" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Teléfono Movil</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.number_mobile" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Cargo</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.charge" />
+                                              </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <div class="form-group">
+                                                  <label class="control-label">Area</label>
+                                                  <input type="text" class="form-control" v-model="inspectorData.area" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="form-group">
+                                                  <label class="control-label">Descripcion</label>
+                                                  <textarea class="form-control" v-model="inspectorData.description"></textarea>
                                               </div>
                                           </div>
                                       </div>

@@ -427,6 +427,36 @@
                     </div>
                 </div>
                 <br>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>GALERIA</b>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>ADJUNTOS</b>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
             </div>
             <div class="col-lg-12">
                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
@@ -636,6 +666,37 @@
                                         </td>
                                     </tr>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <br>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>GALERIA</b>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>ADJUNTOS</b>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
                             </div>
                         </div>
                     </div>

@@ -26,7 +26,10 @@ function findpostKey (postId) {
 var List = Vue.extend({
   template: '#post-list',
   data: function () {
-    return {posts: posts, searchKey: ''};
+    return {
+        posts: posts,
+        searchKey: ''
+    };
   },
   created: function () {
     var self = this;
@@ -39,6 +42,7 @@ var List = Vue.extend({
           'citys',
           'departments_citys',
           'contacts_clients',
+          'inspectors_clients',
         ],
       }
     }).then(function (response) {
@@ -403,6 +407,123 @@ var contactEdit = Vue.extend({
   },
 });
 
+var Addinspector = Vue.extend({
+  template: '#add-inspector',
+  data: function () {
+    return {
+      client_id: 0,
+      clientTypesList: [],
+      inspectorData: {
+        client: 0,
+        first_name: '',
+        mail: '',
+      }
+    }
+  },
+  methods: {
+    createinspector: function() {
+      var self = this;
+      var post = self.inspectorData;
+      
+      console.log(post);
+      api.post('/inspectors_clients',post).then(function (response) {
+        self.inspectorData.id = response.data;
+        var Temp = findpost(post.client)
+        Temp.inspectors_clients.push(post);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(JSON.stringify(error));
+      });
+      
+      router.push('/post/' + post.client  + '/edit');
+      
+    },
+  },
+  created: function(){
+    var self = this;
+    self.client_id = self.$route.params.post_id;
+    self.inspectorData.client = self.client_id;
+    
+    if(self.inspectorData.client > 0){
+    }
+    else{
+      router.push('/');
+    }
+  },
+});
+
+var inspectorDelete = Vue.extend({
+  template: '#inspector-delete',
+  data: function () {
+    return {
+      inspector_id: this.$route.params.inspector_id,
+      client_id: this.$route.params.post_id,
+    };
+  },
+  methods: {
+    deleteinspector: function () {
+      var clientId = this.client_id;
+      var inspectorId = this.inspector_id;
+      api.delete('/inspectors_clients/' + inspectorId).then(function (response) {
+        console.log(response.data);
+        router.push('/');
+        location.reload();
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+var inspectorEdit = Vue.extend({
+  template: '#inspector-edit',
+  data: function () {
+    return {
+        client_id: 0,
+        inspector_id: 0,
+        inspectorData: {
+          description: '',
+          client: 0,
+          first_name: '',
+          mail: '',
+        }
+    };
+  },
+  methods: {
+    updateinspector: function () {
+      var self = this;
+      
+      api.put('/inspectors_clients/' + self.inspector_id, self.inspectorData).then(function (response) {
+        console.log(response.data);
+        router.push('/post/' + self.client_id  + '/edit');
+      }).catch(function (error) {
+        console.log(error);
+      });
+      //location.reload();
+    }
+  },
+  created: function(){
+    var self = this;
+    self.inspectorData.client = self.client_id = self.$route.params.post_id;
+    self.inspectorData.id = self.inspector_id = self.$route.params.inspector_id;
+    var Temp3 = findpost(self.client_id);
+    if(Temp3.inspectors_clients.length > 0)
+     {
+      for (var key = 0; key < Temp3.inspectors_clients.length; key++) {
+        if (Temp3.inspectors_clients[key].id == self.inspector_id) {
+          self.inspectorData = Temp3.inspectors_clients[key];
+        }
+      }
+     }
+    else
+    {
+      console.log('Error retornar');
+    }
+    
+  },
+});
+
 var router = new VueRouter({routes:[
   { path: '/', component: List},
   { path: '/post/:post_id', component: post, name: 'post'},
@@ -412,6 +533,9 @@ var router = new VueRouter({routes:[
   { path: '/add-contact', component: AddContact, name: 'contact-add' },
   { path: '/post/:post_id/contact/:contact_id/delete', component: contactDelete, name: 'contact-delete'},
   { path: '/post/:post_id/contact/:contact_id/edit', component: contactEdit, name: 'contact-edit'},
+  { path: '/post/:post_id/inspector/:inspector_id/delete', component: inspectorDelete, name: 'inspector-delete'},
+  { path: '/post/:post_id/inspector/:inspector_id/edit', component: inspectorEdit, name: 'inspector-edit'},
+  { path: '/add-contact/inspector/add', component: Addinspector, name: 'inspector-add' },
 ]});
 app = new Vue({
   router:router

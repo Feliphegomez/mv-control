@@ -27,7 +27,7 @@
                 <li><a href="/forms/services"> <i class="fa fa-cog"></i> Servicios</a></li>
                 <li><a href="/forms/status-services"> <i class="fa fa-eyedropper"></i> Estados</a></li>
                 <li><a href="/forms/categorys-services"> <i class="fa fa-bars"></i> Categorias</a></li>
-                <li><a href="/forms/payments-types"> <i class="fa fa-circle"></i> Unidades de Medida</a></li>
+                <li><a href="/forms/payments-types"> <i class="fa fa-compass"></i> Unidades de Medida</a></li>
             </ul>
         </li>
         <li>
@@ -44,6 +44,7 @@
 			<a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-users"></i> Empleados </a>
             <ul class="collapse list-unstyled" id="employeeSubmenu">
                 <li><a href="/persons/employee"> <i class="fa fa-user-circle"></i> Personal</a></li>
+                <li><a href="/persons/crews"> <i class="fa fa-user-circle"></i> Cuadrillas</a></li>
                 <li><a href="/persons/employee-charges"> <i class="fa fa-address-card-o"></i> Cargos</a></li>
                 <li><a href="/persons/employee-tasks"> <i class="fa fa-tasks"></i> Tareas</a></li>
                 
@@ -56,6 +57,12 @@
                 <li><a href="/transports/categorys-vehicles"> <i class="fa fa-list-alt"></i> Categorias</a></li>
                 <li><a href="/transports/fuel-types"> <i class="fa fa-tint"></i> Combustibles</a></li>
                 
+            </ul>
+        </li>
+        <li>
+			<a href="#zonesGreensSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-bus"></i> Mantenimiento Zonas Verdes </a>
+            <ul class="collapse list-unstyled" id="zonesGreensSubmenu">
+                <li><a href="/transports/vehicles"> <i class="fa fa-truck"></i> Contratos</a></li>
             </ul>
         </li>
         <!--
