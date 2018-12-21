@@ -427,31 +427,27 @@
                     </div>
                 </div>
                 <br>
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>GALERIA</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <br>
                 <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>ADJUNTOS</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        <i class="glyphicon glyphicon-lock text-gold"></i>
+                                        <b>GALERIA</b>
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-3" v-for="img in post.galery_vehicles">
+                                            
+                                            <a class="btn btn-info btn-xs" target="_new" v-bind:href="'/images/' + img.image"><i class="fa fa-eye"></i> Ver</a>
+                                            <hr>
+											<img width="100%" class="image image-responsive" v-bind:src="'/images/' + img.image" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -670,33 +666,69 @@
                         </div>
                     </div>
                 </div>
-                
                 <br>
                 <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>GALERIA</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        <i class="glyphicon glyphicon-lock text-gold"></i>
+                                        <b>Agregar Imagen</b>
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="input-group image-preview">
+                                                <div class="btn btn-default image-preview-input">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                    <span class="image-preview-input-title">Browse</span>
+                                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview" @change="changeImage" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input v-model="image_preview.name" type="text" class="form-control" />
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input v-model="image_preview.type" type="hidden" class="form-control" readonly="" />
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <input v-model="image_preview.size" type="hidden" class="form-control" readonly="" />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <input v-model="image_preview.src" type="hidden" class="form-control image-preview-filename" readonly="" />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="input-group image-preview">
+                                                <img id="dynamic" width="100%" v-bind:src="image_preview.src" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <br>
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>ADJUNTOS</b>
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
+                        <div class="col-md-8">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        <i class="glyphicon glyphicon-lock text-gold"></i>
+                                        <b>GALERIA</b>
+                                    </h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-4" v-for="img in post.galery_vehicles">
+                                            <img width="100%" class="image image-responsive" v-bind:src="'/images/' + img.image" />
+                                            <hr>
+                                            <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'galery_vehicles-delete', params: {galery_vehicles_id: img.id }}">
+                                                <i class="fa fa-trash"></i> Eliminar
+                                            </router-link>
+                                            <a class="btn btn-info btn-xs" target="_new" v-bind:href="'/images/' + img.image"><i class="fa fa-eye"></i> Ver</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -789,6 +821,17 @@
       <p>Se va a eliminar el conductor de manera permanente.</p>
       <button type="submit" class="btn btn-danger">Eliminar</button>
       <router-link class="btn btn-primary" v-bind:to="'/post/' + post_id + '/edit'">Cancelar</router-link>
+    </form>
+  </div>
+</template>
+
+<template id="galery_vehicles-delete">
+  <div>
+    <h2>Delete galery_vehicles {{ galery_vehicles_id }}</h2>
+    <form v-on:submit="deletegalery_vehicles" method="POST">
+      <p>The action cannot be undone.</p>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+      <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
     </form>
   </div>
 </template>

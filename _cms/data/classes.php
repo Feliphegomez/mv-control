@@ -112,6 +112,80 @@ class DataPage
         if($this->page == null) $this->page = 'index';
         if($this->action == null) $this->action = 'view';
         
+        /* Detectar si es una imagen. */
+        $imgIdTemp = (int) $this->page;
+        if($this->module == 'images' && $imgIdTemp > 0)
+        {
+            $connect = new ConectionDB();
+            $connect->setSQL("Select * From images where id IN ('{$imgIdTemp}') ");
+            $connect->executeSQL();
+            if($connect->error == false && $connect->dataCount === 1)
+            {
+                $tempImg = $connect->data;
+                
+                $Base64Img = $tempImg->src;
+                $Base64Img = @explode('data:image/', $Base64Img);
+                $Base64Img = @explode(';base64,',$Base64Img[1]);
+                $TypeImg = ($Base64Img[0]);
+                $Base64Img = ($Base64Img[1]);
+                
+                if(!isset($Base64Img[0]) || !isset($Base64Img[1])){
+                    $path = '_docs/images/sorry-image-not-available.jpg';
+                    exit('_docs/images/sorry-image-not-available.jpg');
+                }
+                
+			
+                if(!isset($data['out_type'])){ $data['out_type'] = $TypeImg; }
+                elseif(isset($data['out_type']) && $data['out_type'] !== $TypeImg){ $data['out_type'] = $TypeImg; };
+                
+                $imageData = base64_decode($Base64Img);
+                $source = imagecreatefromstring($imageData);
+                
+                
+                if($data['out_type'] == 'gif'){
+                    header("Content-type: image/gif");
+                    //$source = imagecreatefromgif("data://image/gif;base64,".$Base64Img);
+                    $source = imagegif($source);
+                }
+                else if($data['out_type'] == 'png'){
+                    header("Content-type: image/png");
+                    $source = imagecreatefrompng("data://image/".$TypeImg.";base64,".$Base64Img);
+                    
+                    imageAlphaBlending($source, true);
+                    imageSaveAlpha($source, true);
+                    $source = imagepng($source);
+                }
+                else if($data['out_type'] == 'jpg' || $data['out_type'] == 'jpeg'){
+                    #$source = imagecreatefromjpeg("data://image/jpeg;base64:".$Base64Img);
+                    header("Content-type: image/jpeg");
+                    
+                    if(isset($data['thumb']) && $data['thumb'] == true){
+                    $source = imagecreatefromjpeg("data://image/".$TypeImg.";base64,".$Base64Img);
+                        
+                        if(isset($data['zoom']) && $data['zoom'] > 0){
+                            $porcentaje = $data['zoom'];
+                        }else{
+                            $porcentaje = 0.5;
+                        }
+                        
+                        $alto = ImageSY($source);
+                        $ancho = ImageSX($source);
+                                                    
+                        $nuevo_ancho = $ancho * $porcentaje;
+                        $nuevo_alto = $alto * $porcentaje;
+                        // Cargar
+                        $source = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
+                        $origen = imagecreatefromjpeg("data://image/".$TypeImg.";base64,".$Base64Img);
+                        // Cambiar el tamaño
+                        imagecopyresized($source, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+                    }
+                    
+                    $source = imagejpeg($source);
+                }
+                imagedestroy($source);
+            }
+           exit();
+        }
         
         /* Detectar si hay o no sesion activa. */
         $this->session = new Session();
@@ -146,6 +220,7 @@ class DataPage
         {
             $this->logOut();
         }
+        
     }
 	
 	/* Login global */

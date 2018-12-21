@@ -43,10 +43,12 @@ var List = Vue.extend({
           'departments_citys',
           'contacts_clients',
           'inspectors_clients',
+          'contracts_clients',
         ],
       }
     }).then(function (response) {
-      posts = self.posts = response.data.records;
+      	posts = self.posts = response.data.records;
+		// console.log(JSON.stringify(posts));
     }).catch(function (error) {
       console.log(error);
     });
@@ -524,6 +526,123 @@ var inspectorEdit = Vue.extend({
   },
 });
 
+var Addcontract = Vue.extend({
+  template: '#add-contract',
+  data: function () {
+    return {
+      client_id: 0,
+      clientTypesList: [],
+      contractData: {
+        client: 0,
+        name: '',
+        consecutive: '',
+      }
+    }
+  },
+  methods: {
+    createcontract: function() {
+      var self = this;
+      var post = self.contractData;
+      
+      console.log(post);
+      api.post('/contracts_clients',post).then(function (response) {
+        self.contractData.id = response.data;
+        var Temp = findpost(post.client)
+        Temp.contracts_clients.push(post);
+      }).catch(function (error) {
+        console.log(error);
+        console.log(JSON.stringify(error));
+      });
+      
+      router.push('/post/' + post.client  + '/edit');
+      
+    },
+  },
+  created: function(){
+    var self = this;
+    self.client_id = self.$route.params.post_id;
+    self.contractData.client = self.client_id;
+    
+    if(self.contractData.client > 0){
+    }
+    else{
+      router.push('/');
+    }
+  },
+});
+
+var contractDelete = Vue.extend({
+  template: '#contract-delete',
+  data: function () {
+    return {
+      contract_id: this.$route.params.contract_id,
+      client_id: this.$route.params.post_id,
+    };
+  },
+  methods: {
+    deletecontract: function () {
+      var clientId = this.client_id;
+      var contractId = this.contract_id;
+      api.delete('/contracts_clients/' + contractId).then(function (response) {
+        console.log(response.data);
+        router.push('/');
+        location.reload();
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+var contractEdit = Vue.extend({
+  template: '#contract-edit',
+  data: function () {
+    return {
+        client_id: 0,
+        contract_id: 0,
+        contractData: {
+          description: '',
+          client: 0,
+          first_name: '',
+          mail: '',
+        }
+    };
+  },
+  methods: {
+    updatecontract: function () {
+      var self = this;
+      
+      api.put('/contracts_clients/' + self.contract_id, self.contractData).then(function (response) {
+        console.log(response.data);
+        router.push('/post/' + self.client_id  + '/edit');
+      }).catch(function (error) {
+        console.log(error);
+      });
+      //location.reload();
+    }
+  },
+  created: function(){
+    var self = this;
+    self.contractData.client = self.client_id = self.$route.params.post_id;
+    self.contractData.id = self.contract_id = self.$route.params.contract_id;
+    var Temp3 = findpost(self.client_id);
+    if(Temp3.contracts_clients.length > 0)
+     {
+      for (var key = 0; key < Temp3.contracts_clients.length; key++) {
+        if (Temp3.contracts_clients[key].id == self.contract_id) {
+          self.contractData = Temp3.contracts_clients[key];
+        }
+      }
+     }
+    else
+    {
+      console.log('Error retornar');
+    }
+    
+  },
+});
+
 var router = new VueRouter({routes:[
   { path: '/', component: List},
   { path: '/post/:post_id', component: post, name: 'post'},
@@ -536,6 +655,9 @@ var router = new VueRouter({routes:[
   { path: '/post/:post_id/inspector/:inspector_id/delete', component: inspectorDelete, name: 'inspector-delete'},
   { path: '/post/:post_id/inspector/:inspector_id/edit', component: inspectorEdit, name: 'inspector-edit'},
   { path: '/add-contact/inspector/add', component: Addinspector, name: 'inspector-add' },
+  { path: '/post/:post_id/contract/:contract_id/delete', component: contractDelete, name: 'contract-delete'},
+  { path: '/post/:post_id/contract/:contract_id/edit', component: contractEdit, name: 'contract-edit'},
+  { path: '/add-contact/contract/add', component: Addcontract, name: 'contract-add' },
 ]});
 app = new Vue({
   router:router

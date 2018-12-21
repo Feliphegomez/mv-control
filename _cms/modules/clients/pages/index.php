@@ -578,6 +578,52 @@
                                 </div>
                             </div>
                         </div>
+						
+					<br />
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card card-default">
+								<div class="card-header">
+									<h4 class="card-title">
+										<i class="glyphicon glyphicon-lock text-gold"></i>
+										<b>CONTRATOS</b>
+									</h4>
+								</div>
+								<div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-lg-12">
+												<table class="table table-responsive">
+													<tr>
+														<th>ID MV</th>
+														<th>consecutive</th>
+														<th>name</th>
+														<th>objective</th>
+														<th>client</th>
+														<th>description_service</th>
+														<th>date_start</th>
+														<th>date_end</th>
+														<th>observations</th>
+													</tr>
+													<tr v-for="contract in post.contracts_clients">
+														<td>{{ contract.id }}</td>
+														<td>{{ contract.consecutive }}</td>
+														<td>{{ contract.number }}</td>
+														<td>{{ contract.objective }}</td>
+														<td>{{ contract.client }}</td>
+														<td>{{ contract.description_service }}</td>
+														<td>{{ contract.date_start }}</td>
+														<td>{{ contract.date_end }}</td>
+														<td>{{ contract.observations }}</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
                         <div class="row">
                             <div class="col-lg-12">
@@ -899,6 +945,60 @@
                                 </div>
                             </div>
                         </div>
+
+
+					<br />
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card card-default">
+								<div class="card-header">
+									<h4 class="card-title">
+										<i class="glyphicon glyphicon-lock text-gold"></i>
+										<b>CONTRATOS</b>
+									</h4>
+								</div>
+								<div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-lg-12">
+												<router-link class="btn btn-success btn-xs" v-bind:to="{name: 'contract-add', params: {post_id: post.id}}"><i class="fa fa-plus-square"></i> Crear </router-link>
+												<hr>
+												<table class="table table-responsive">
+													<tr>
+														<th>ID MV</th>
+														<th>consecutive</th>
+														<th>name</th>
+														<th>objective</th>
+														<th>client</th>
+														<th>description_service</th>
+														<th>date_start</th>
+														<th>date_end</th>
+														<th>observations</th>
+														<th>Actions</th>
+													</tr>
+													<tr v-for="contract in post.contracts_clients">
+														<td>{{ contract.id }}</td>
+														<td>{{ contract.consecutive }}</td>
+														<td>{{ contract.number }}</td>
+														<td>{{ contract.objective }}</td>
+														<td>{{ contract.client }}</td>
+														<td>{{ contract.description_service }}</td>
+														<td>{{ contract.date_start }}</td>
+														<td>{{ contract.date_end }}</td>
+														<td>{{ contract.observations }}</td>
+														<td>
+															<router-link class="btn btn-warning btn-xs" v-bind:to="{name: 'contract-edit', params: {post_id: post.id, contract_id: contract.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></router-link>
+															<router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'contract-delete', params: { post_id: post.id, contract_id: contract.id }}"><i class="fa fa-trash" aria-hidden="true"></i></router-link>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
                       <div class="row">
                           <div class="col-lg-12">
@@ -1391,3 +1491,202 @@
         </div>
     </div>
 </template>
+
+
+<template id="add-contract">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>NUEVO contrato</b>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form v-on:submit="createcontract" method="POST">
+                                        <div class="row">
+                                          	<input type="hidden" class="form-control" v-model="contractData.client" />
+                                          	<div class="col-md-4">
+                                              	<div class="form-group">
+                                                  	<label class="control-label"># Contrato</label>
+                                                  	<input type="text" class="form-control" v-model="contractData.number" />
+                                              	</div>
+                                          	</div>
+                                         	<div class="col-md-4">
+                                            	<div class="form-group">
+                                                	<label class="control-label">Consecutivo del contrato</label>
+                                                  	<input type="text" class="form-control" v-model="contractData.consecutive" />
+                                              	</div>
+                                          	</div>
+                                         	<div class="col-md-4">
+                                            	<div class="form-group">
+                                                	<label class="control-label">Titulo / Nombre del contrato</label>
+                                                  	<input type="text" class="form-control" v-model="contractData.name" />
+                                              	</div>
+                                          	</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Objetivo del Contrato</label>
+													<textarea rows="10" class="form-control" v-model="contractData.objective"></textarea>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Descripcion del Servicio</label>
+													<textarea rows="10" class="form-control" v-model="contractData.description_service"></textarea>
+												</div>
+											</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Fecha de Inicio</label>
+													<input type="date" class="form-control" v-model="contractData.date_start" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Fecha de Termino</label>
+													<input type="date" class="form-control" v-model="contractData.date_end" />
+												</div>
+											</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Observaciones</label>
+                                                    <textarea rows="10" class="form-control" v-model="contractData.observations"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="pull-right">
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="contract-delete">
+  <div>
+    <h2>Eliminar contract {{ contract_id }}</h2>
+    <form v-on:submit="deletecontract">
+      <p>Se va a eliminar el contract permanentemente, confirme en el boton ROJO para eliminar.</p>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+                <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+    </form>
+  </div>
+</template>
+
+<template id="contract-edit">
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <i class="glyphicon glyphicon-lock text-gold"></i>
+                            <b>EDITAR contract</b>
+                        </h4>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form v-on:submit="updatecontract">
+										<div class="row">
+                                        	<input type="hidden" class="form-control" v-model="contractData.id" />
+                                          	<input type="hidden" class="form-control" v-model="contractData.client" />
+                                          	<div class="col-md-4">
+                                              	<div class="form-group">
+                                                  	<label class="control-label"># Contrato</label>
+                                                  	<input type="text" class="form-control" v-model="contractData.number" />
+                                              	</div>
+                                          	</div>
+                                         	<div class="col-md-4">
+                                            	<div class="form-group">
+                                                	<label class="control-label">Consecutivo del contrato</label>
+                                                  	<input type="text" class="form-control" v-model="contractData.consecutive" />
+                                              	</div>
+                                          	</div>
+                                         	<div class="col-md-4">
+                                            	<div class="form-group">
+                                                	<label class="control-label">Titulo / Nombre del contrato</label>
+                                                  	<input type="text" class="form-control" v-model="contractData.name" />
+                                              	</div>
+                                          	</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Objetivo del Contrato</label>
+													<textarea rows="10" class="form-control" v-model="contractData.objective"></textarea>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Descripcion del Servicio</label>
+													<textarea rows="10" class="form-control" v-model="contractData.description_service"></textarea>
+												</div>
+											</div>
+                                        </div>
+                                        <div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Fecha de Inicio</label>
+													<input type="date" class="form-control" v-model="contractData.date_start" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">Fecha de Termino</label>
+													<input type="date" class="form-control" v-model="contractData.date_end" />
+												</div>
+											</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Observaciones</label>
+                                                    <textarea rows="10" class="form-control" v-model="contractData.observations"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+										
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="pull-right">
+                                                  <button type="submit" class="btn btn-primary">Guardar</button>
+                                                  <router-link class="btn btn-secundary" v-bind:to="'/post/' + client_id + '/edit'">Cancelar</router-link>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
