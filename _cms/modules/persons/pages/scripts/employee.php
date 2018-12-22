@@ -4,6 +4,8 @@ var posts = [];
 var api = axios.create({
   baseURL: '/api/v0/api.php/records'
 });
+
+/*
 function findpost (postId) {
   return posts[findpostKey(postId)];
 };
@@ -23,6 +25,8 @@ function findpostKey (postId) {
      location.reload();
    }
 };
+/*/
+
 var List = Vue.extend({
   template: '#post-list',
   data: function () {
@@ -65,128 +69,238 @@ var post = Vue.extend({
     return {post: findpost(this.$route.params.post_id)};
   }
 });
+
 var postEdit = Vue.extend({
-  template: '#post-edit',
-  data: function () {
-    return {
-      post: findpost(this.$route.params.post_id),
-      identificationTypesList: [],
-      bloodTypesList: [],
-      bloodRHsList: [],
-      epsList: [],
-      arlList: [],
-      statusEmployeeList: [],
-      pensionFundsList: [],
-      compensationFundsList: [],
-      severanceFundsList: [],
-    };
-  },
-  methods: {
-    updatepost: function () {
-      var post = this.post;
-      var postTemp = post;
-      postTemp.identification_type = post.identification_type.id;
-      postTemp.blood_type = post.blood_type.id;
-      postTemp.blood_rh = post.blood_rh.id;
-      postTemp.status = post.status.id;
-      postTemp.eps = post.eps.id;
-      postTemp.arl = post.arl.id;
-      postTemp.pension_fund = post.pension_fund.id;
-      postTemp.compensation_fund = post.compensation_fund.id;
-      postTemp.severance_fund = post.severance_fund.id;
-      
-      api.put('/persons/'+post.id, postTemp).then(function (response) {
-        console.log(response.data);
-      }).catch(function (error) {
-        console.log(error);
-      });
-      router.push('/');
+    template: '#post-edit',
+    data: function () {
+        return {
+            post_id: this.$route.params.post_id,
+            //post: findpost(this.$route.params.post_id),
+            post: {
+                id: this.$route.params.post_id,
+                identification_type: {
+                    id: this.$route.params.post_id,
+                },
+                blood_type: {
+                    id: 0,
+                },
+                blood_rh: {
+                    id: 0,
+                },
+                status: {
+                    id: 0,
+                },
+                eps: {
+                    id: 0,
+                },
+                arl: {
+                    id: 0,
+                },
+                pension_fund: {
+                    id: 0,
+                },
+                compensation_fund: {
+                    id: 0,
+                },
+                severance_fund: {
+                    id: 0,
+                },
+                reason_resignation: {
+                    id: 0,
+                },
+            },
+            identificationTypesList: [],
+            bloodTypesList: [],
+            bloodRHsList: [],
+            epsList: [],
+            arlList: [],
+            statusEmployeeList: [],
+            pensionFundsList: [],
+            compensationFundsList: [],
+            severanceFundsList: [],
+            reasonResignationList: [],
+            image_preview: {
+                name: '',
+                size: 0,
+                src: '',
+                type: '',
+            }
+        };
+    },
+    methods: {
+        updatepost: function () {
+          var post = this.post;
+          var postTemp = post;
+          postTemp.identification_type = post.identification_type.id;
+          postTemp.blood_type = post.blood_type.id;
+          postTemp.blood_rh = post.blood_rh.id;
+          postTemp.status = post.status.id;
+          postTemp.eps = post.eps.id;
+          postTemp.arl = post.arl.id;
+          postTemp.pension_fund = post.pension_fund.id;
+          postTemp.compensation_fund = post.compensation_fund.id;
+          postTemp.severance_fund = post.severance_fund.id;
+          
+          api.put('/persons/' + this.$route.params.post_id, postTemp).then(function (response) {
+            console.log(response.data);
+            location.reload();
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        changeImage: function(e){
+			var self = this;
+			var image = e;
+			var file = image.target.files[0];
+			var reader = new FileReader();
+			// Set preview image into the popover data-content
+
+			reader.onload = function (e) {
+				self.image_preview.name = file.name;
+				self.image_preview.size = file.size;
+				self.image_preview.src = e.target.result;
+				self.image_preview.type = file.type;
+				//img.attr('src', e.target.result);
+				///$(".image-preview-filename").val(file.name);
+				$(".image-preview-input-title").text("Cambiando");
+
+				//$(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+
+
+				api.post('/images', self.image_preview).then(function (response) {
+					var imageId = response.data;
+					self.post.avatar = imageId;
+                    self.updatepost();
+				}).catch(function (error) {
+					console.log(error.response);
+				});
+
+			}        
+			reader.readAsDataURL(file);
+		}
+    },
+    created: function(){
+        var self = this;
+        
+        api.get('/identification_types', {
+          params: {
+          }
+        }).then(function (response) {
+          self.identificationTypesList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/blood_types', {
+          params: {
+          }
+        }).then(function (response) {
+          self.bloodTypesList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/blood_rhs', {
+          params: {
+          }
+        }).then(function (response) {
+          self.bloodRHsList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/eps', {
+          params: {
+          }
+        }).then(function (response) {
+          self.epsList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/arl', {
+          params: {
+          }
+        }).then(function (response) {
+          self.arlList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/status_employee', {
+          params: {
+          }
+        }).then(function (response) {
+          self.statusEmployeeList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/pension_funds', {
+          params: {
+          }
+        }).then(function (response) {
+          self.pensionFundsList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/compensation_funds', {
+          params: {
+          }
+        }).then(function (response) {
+          self.compensationFundsList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/severance_funds', {
+          params: {
+          }
+        }).then(function (response) {
+          self.severanceFundsList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+        api.get('/reasons_resignation', {
+          params: {
+          }
+        }).then(function (response) {
+          self.reasonResignationList = response.data.records;
+        }).catch(function (error) {
+          console.log(error);
+        });
+        
+    },
+	mounted: function(){
+        var self = this;
+        api.get('/persons', {
+            params: {
+                join: [
+                    'status_employee',
+                    'identification_types',
+                    'eps',
+                    'arl',
+                    'blood_types',
+                    'blood_rhs',
+                    'pension_funds',
+                    'compensation_funds',
+                    'severance_funds',
+                    'contacts_employee',
+                    'reasons_resignation',
+                ],
+                filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+            }
+        }).then(function (response) {
+          self.post = response.data.records[0];
+          console.log(self.post);
+        }).catch(function (error) {
+          console.log(error);
+        });
     }
-  },
-  created: function(){
-    var self = this;
-    
-    api.get('/identification_types', {
-      params: {
-      }
-    }).then(function (response) {
-      self.identificationTypesList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/blood_types', {
-      params: {
-      }
-    }).then(function (response) {
-      self.bloodTypesList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/blood_rhs', {
-      params: {
-      }
-    }).then(function (response) {
-      self.bloodRHsList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/eps', {
-      params: {
-      }
-    }).then(function (response) {
-      self.epsList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/arl', {
-      params: {
-      }
-    }).then(function (response) {
-      self.arlList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/status_employee', {
-      params: {
-      }
-    }).then(function (response) {
-      self.statusEmployeeList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/pension_funds', {
-      params: {
-      }
-    }).then(function (response) {
-      self.pensionFundsList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/compensation_funds', {
-      params: {
-      }
-    }).then(function (response) {
-      self.compensationFundsList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/severance_funds', {
-      params: {
-      }
-    }).then(function (response) {
-      self.severanceFundsList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
 });
 var postDelete = Vue.extend({
   template: '#post-delete',

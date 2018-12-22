@@ -191,13 +191,19 @@
                                       </div>
                                 </div>
                                 
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                       <div class="form-group">
                                         <label for="add-content">Peso Base Vehiculo</label>
                                         <input class="form-control" type="text"  v-model="post.base_weight" />
                                       </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label for="add-content">Costo de renta</label>
+                                        <input class="form-control" type="text"  v-model="post.rent_cost" />
+                                      </div>
+                                </div>
+                                <div class="col-md-4">
                                   <div class="form-group">
                                       <label class="control-label">Estado</label>
                                       <select class="form-control" v-model="post.status">
@@ -374,13 +380,19 @@
                                   </div>
                             </div>
                             
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                   <div class="form-group">
                                     <label for="add-content">Peso Base Vehiculo</label>
                                     <input class="form-control" type="text"  v-model="post.base_weight" />
                                   </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-lg-4">
+                                  <div class="form-group">
+                                    <label for="add-content">Costo de renta</label>
+                                    <input class="form-control" type="text"  v-model="post.rent_cost" />
+                                  </div>
+                            </div>
+                            <div class="col-md-4">
                               <div class="form-group">
                                   <label class="control-label">Estado</label>
                                   <select class="form-control" v-model="post.status">
@@ -596,13 +608,19 @@
                                       </div>
                                 </div>
                                 
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                       <div class="form-group">
                                         <label for="add-content">Peso Base Vehiculo</label>
                                         <input class="form-control" type="text"  v-model="post.base_weight" />
                                       </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label for="add-content">Costo de renta</label>
+                                        <input class="form-control" type="text"  v-model="post.rent_cost" />
+                                      </div>
+                                </div>
+                                <div class="col-md-4">
                                   <div class="form-group">
                                       <label class="control-label">Estado</label>
                                       <select class="form-control" v-model="post.status">
@@ -669,27 +687,22 @@
                 <br>
                 <div class="card card-default">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12" style="display:none;">
                             <div class="card card-default">
+                                <!--
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         <i class="glyphicon glyphicon-lock text-gold"></i>
                                         <b>Agregar Imagen</b>
                                     </h4>
                                 </div>
+                                -->
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div class="input-group image-preview">
-                                                <div class="btn btn-default image-preview-input">
-                                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                                    <span class="image-preview-input-title">Browse</span>
-                                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview" @change="changeImage" />
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="col-lg-2">
-                                            <input v-model="image_preview.name" type="text" class="form-control" />
+                                            <input v-model="image_preview.name" type="hidden" class="form-control" />
                                         </div>
                                         <div class="col-lg-3">
                                             <input v-model="image_preview.type" type="hidden" class="form-control" readonly="" />
@@ -709,23 +722,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-11">
                             <div class="card card-default">
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         <i class="glyphicon glyphicon-lock text-gold"></i>
                                         <b>GALERIA</b>
+                                        <div class="input-group image-preview" style="float-right">
+                                            <div class="btn btn-default image-preview-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="image-preview-input-title"> <i class="fa fa-plus"></i> <i class="fa fa-camera"></i> </span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview" @change="changeImage" />
+                                            </div>
+                                        </div>
                                     </h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-lg-4" v-for="img in post.galery_vehicles">
-                                            <img width="100%" class="image image-responsive" v-bind:src="'/images/' + img.image" />
-                                            <hr>
+                                        <div class="col-lg-3" v-for="img in post.galery_vehicles" style="min-height: 350px;height:350px;">
                                             <router-link class="btn btn-danger btn-xs" v-bind:to="{name: 'galery_vehicles-delete', params: {galery_vehicles_id: img.id }}">
                                                 <i class="fa fa-trash"></i> Eliminar
                                             </router-link>
                                             <a class="btn btn-info btn-xs" target="_new" v-bind:href="'/images/' + img.image"><i class="fa fa-eye"></i> Ver</a>
+                                            <hr>
+                                            <img width="100%" class="image image-responsive" v-bind:src="'/images/' + img.image" />
                                         </div>
                                     </div>
                                 </div>
@@ -764,16 +784,7 @@
                     <form v-on:submit="createpost" method="POST">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
-                                  <div class="form-group">
-                                      <label class="control-label">Vehículo</label>
-                                      <select class="form-control" v-model="post.vehicle" disabled="">
-                                        <option value="0">Seleccione una opcion.</option>
-                                        <option v-bind:value="item.id" v-for="item in vehiclesList">{{ item.license_plate }} {{ item.brand }} {{ item.model }}</option>
-                                      </select>
-                                  </div>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                       <label class="control-label">Empleado</label>
                                       <select class="form-control" v-model="post.employee">
@@ -784,7 +795,7 @@
                                       </select>
                                   </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                       <label class="control-label">Cargo</label>
                                       <select class="form-control" v-model="post.charge">
@@ -831,7 +842,7 @@
     <form v-on:submit="deletegalery_vehicles" method="POST">
       <p>The action cannot be undone.</p>
       <button type="submit" class="btn btn-danger">Eliminar</button>
-      <router-link class="btn btn-primary" v-bind:to="'/'">Cancelar</router-link>
+      <router-link class="btn btn-primary" v-bind:to="'/post/' + post_id + '/edit'">Cancelar</router-link>
     </form>
   </div>
 </template>

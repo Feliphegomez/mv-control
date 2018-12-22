@@ -7,48 +7,6 @@ var api = axios.create({
   baseURL: '/api/v0/api.php/records'
 });
 
-function findpost (postId) {
-  return posts[findpostKey(postId)];
-};
-
-function findpostKey (postId) {
-  if(posts.length > 0)
-   {
-    for (var key = 0; key < posts.length; key++) {
-      if (posts[key].id == postId) {
-        return key;
-      }
-    }
-   }
-   else
-   {
-     console.log('no se cargo la lista');
-     location.hash = '#';
-     //location.reload();
-   }
-};
-
-function findemployee (postId) {
-  return employees[findemployeeKey(postId)];
-};
-
-function findemployeeKey (postId) {
-  if(employees.length > 0)
-   {
-    for (var key = 0; key < employees.length; key++) {
-      if (employees[key].id == postId) {
-        return key;
-      }
-    }
-   }
-   else
-   {
-     console.log('no se cargo la lista');
-     // location.hash = '#';
-     // location.reload();
-   }
-};
-
 var List = Vue.extend({
   template: '#post-list',
   data: function () {
@@ -67,7 +25,7 @@ var List = Vue.extend({
     }).then(function (response) {
       employees = self.employees = response.data.records;
     }).catch(function (error) {
-      console.log(error);
+      console.log(error.response);
     });
     
     api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
@@ -78,8 +36,7 @@ var List = Vue.extend({
     }).then(function (response) {
       posts = self.posts = response.data.records;
     }).catch(function (error) {
-      console.log(error);
-      return (error);;
+      console.log(error.response);
     });
   },
   computed: {
@@ -114,7 +71,7 @@ var post = Vue.extend({
 		}).then(function (response) {
 		  self.categoryVehiclesList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
 
 		api.get('/fuel_types', {
@@ -123,7 +80,7 @@ var post = Vue.extend({
 		}).then(function (response) {
 		  self.fuelsVehiclesList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
 
 		api.get('/status_vehicles', {
@@ -132,7 +89,7 @@ var post = Vue.extend({
 		}).then(function (response) {
 		  self.statusVehiclesList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
 
 		api.get('/persons', {
@@ -141,12 +98,11 @@ var post = Vue.extend({
 		}).then(function (response) {
 		  self.employeeList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
   	},
 	mounted: function(){
    		var self = this;
-		console.log(self.$route.params.post_id);
 		
 		api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
 			params: {
@@ -158,8 +114,7 @@ var post = Vue.extend({
 		}).then(function (response) {
 		  self.post = response.data.records[0];
 		}).catch(function (error) {
-		  console.log(error);
-		  return (error);;
+		  console.log(error.response);
 		});
 	}
 });
@@ -194,17 +149,15 @@ var postEdit = Vue.extend({
 
 
 		  api.put('/vehicles/'+post.id, postTemp).then(function (response) {
-			console.log(response.data);
+			var tempData = response.data;
 		  }).catch(function (error) {
-			console.log(error);
+			console.log(error.response);
 		  });
 		  router.push('/');
 		},
 		changeImage: function(e){
 			var self = this;
 			var image = e;
-			console.log(image);
-
 			var file = image.target.files[0];
 			var reader = new FileReader();
 			// Set preview image into the popover data-content
@@ -223,7 +176,6 @@ var postEdit = Vue.extend({
 
 				api.post('/images', self.image_preview).then(function (response) {
 					var imageId = response.data;
-					console.log(imageId);
 					//http://mv-operation.dataservix.com/images/1
 
 					var tempInsert = {};
@@ -231,15 +183,12 @@ var postEdit = Vue.extend({
 					tempInsert.vehicle = self.post.id;
 					api.post('/galery_vehicles', tempInsert).then(function (response) {
 						var imageId = response.data;
-						console.log(imageId);
 						location.reload();
 					}).catch(function (error) {
-						console.log(error);
 						console.log(error.response);
 					});
 
 				}).catch(function (error) {
-					console.log(error);
 					console.log(error.response);
 				});
 
@@ -257,7 +206,7 @@ var postEdit = Vue.extend({
 		}).then(function (response) {
 		  self.categoryVehiclesList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
 
 		api.get('/fuel_types', {
@@ -266,7 +215,7 @@ var postEdit = Vue.extend({
 		}).then(function (response) {
 		  self.fuelsVehiclesList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
 
 		api.get('/status_vehicles', {
@@ -275,7 +224,7 @@ var postEdit = Vue.extend({
 		}).then(function (response) {
 		  self.statusVehiclesList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
 
 		api.get('/persons', {
@@ -284,12 +233,11 @@ var postEdit = Vue.extend({
 		}).then(function (response) {
 		  self.employeeList = response.data.records;
 		}).catch(function (error) {
-		  console.log(error);
+		  console.log(error.response);
 		});
  	},
 	mounted: function(){
    		var self = this;
-		console.log(self.$route.params.post_id);
 		
 		api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
 			params: {
@@ -301,30 +249,48 @@ var postEdit = Vue.extend({
 		}).then(function (response) {
 		  self.post = response.data.records[0];
 		}).catch(function (error) {
-		  console.log(error);
-		  return (error);;
+		  console.log(error.response);
 		});
 	}
 });
 
 var postDelete = Vue.extend({
-  template: '#post-delete',
-  data: function () {
-    return {
-		post: findpost(this.$route.params.post_id),
-	};
-  },
-  methods: {
-    deletepost: function () {
-      var post = this.post;
-      api.delete('/vehicles/'+post.id).then(function (response) {
-        console.log(response.data);
-      }).catch(function (error) {
-        console.log(error);
-      });
-      router.push('/');
-    }
-  }
+    template: '#post-delete',
+    data: function () {
+        return {
+            post_id: this.$route.params.post_id,
+            post: {
+                id: 0,
+            },
+        };
+    },
+    methods: {
+        deletepost: function () {
+          var post = this.post;
+          api.delete('/vehicles/'+post.id).then(function (response) {
+            var TempData = response.data;
+          }).catch(function (error) {
+            console.log(error.response);
+          });
+          router.push('/');
+        }
+    },
+	mounted: function(){
+   		var self = this;
+		
+		api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
+			params: {
+				filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+				//join: 'employee_charges,persons,crew_vehicles'
+			}
+		}).then(function (response) {
+		  self.post = response.data.records[0];
+		}).catch(function (error) {
+		  console.log(error.response);
+		});
+	}
 });
 
 var Addpost = Vue.extend({
@@ -347,7 +313,7 @@ var Addpost = Vue.extend({
       api.post('/vehicles',post).then(function (response) {
         post.id = response.data;
       }).catch(function (error) {
-        console.log(error);
+        console.log(error.response);
       });
       router.push('/');
     }
@@ -361,7 +327,7 @@ var Addpost = Vue.extend({
     }).then(function (response) {
       self.categoryVehiclesList = response.data.records;
     }).catch(function (error) {
-      console.log(error);
+      console.log(error.response);
     });
     
     api.get('/fuel_types', {
@@ -370,7 +336,7 @@ var Addpost = Vue.extend({
     }).then(function (response) {
       self.fuelsVehiclesList = response.data.records;
     }).catch(function (error) {
-      console.log(error);
+      console.log(error.response);
     });
     
     api.get('/status_vehicles', {
@@ -379,133 +345,168 @@ var Addpost = Vue.extend({
     }).then(function (response) {
       self.statusVehiclesList = response.data.records;
     }).catch(function (error) {
-      console.log(error);
+      console.log(error.response);
     });
   },
 });
 
 var Adddriver = Vue.extend({
-  template: '#add-driver',
-  data: function () {
-    return {
-        vehiclesList: [],
-        employeeList: [],
-        employeeChargesList: [],
-        post_id: this.$route.params.post_id,
-        post: {
-            vehicle: this.$route.params.post_id,
-            employee: 0,
-            charge: 0,
+    template: '#add-driver',
+    data: function () {
+        return {
+            employeeList: [],
+            employeeChargesList: [],
+            post_id: this.$route.params.post_id,
+            post: {
+                vehicle: this.$route.params.post_id,
+                employee: 0,
+                charge: 0,
+            },
+            vehicle: {
+                id: this.$route.params.post_id
+            }
         }
-    }
-  },
-  methods: {
-    createpost: function() {
-      var self = this;
-      var post = this.post;
-      api.post('/crew_vehicles', post).then(function (response) {
-        post.id = response.data;
-      }).catch(function (error) {
-        console.log(error);
-      });
-      router.push('/post/' + self.$route.params.post_id + '/edit');
-      // router.push('/');
-      location.reload();
-    }
-  },
-  created: function(){
-    var self = this;
-    
-    api.get('/vehicles', {
-      params: {
-      }
-    }).then(function (response) {
-      self.vehiclesList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/persons', {
-      params: {
-      }
-    }).then(function (response) {
-      self.employeeList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    api.get('/employee_charges', {
-      params: {
-      }
-    }).then(function (response) {
-      self.employeeChargesList = response.data.records;
-    }).catch(function (error) {
-      console.log(error);
-    });
-    
-    
-  }
+    },
+    methods: {
+        createpost: function() {
+          var self = this;
+          var post = this.post;
+          
+          api.post('/crew_vehicles', post).then(function (response) {
+            post.id = response.data;
+          }).catch(function (error) {
+            console.log(error.response);
+          });
+          router.push('/post/' + self.$route.params.post_id + '/edit');
+          // router.push('/');
+          //location.reload();
+        }
+    },
+    created: function(){
+        var self = this;
+        
+        api.get('/persons', {
+          params: {
+          }
+        }).then(function (response) {
+          self.employeeList = response.data.records;
+        }).catch(function (error) {
+          console.log(error.response);
+        });
+        
+        api.get('/employee_charges', {
+          params: {
+          }
+        }).then(function (response) {
+          self.employeeChargesList = response.data.records;
+        }).catch(function (error) {
+          console.log(error.response);
+        });
+    },
+	mounted: function(){
+   		var self = this;
+		
+		api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
+			params: {
+				filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+				//join: 'employee_charges,persons,crew_vehicles'
+			}
+		}).then(function (response) {
+		  self.vehicle = response.data.records[0];
+		}).catch(function (error) {
+		  console.log(error.response);
+		});
+	}
 });
   
 var driverDelete = Vue.extend({
-  template: '#driver-delete',
-  data: function () {
-    return {
-      post: findpost(this.$route.params.post_id),
-      post_id: this.$route.params.post_id,
-      driver_id: this.$route.params.driver_id,
-    };
-  },
-  methods: {
-    deletepost: function () {
-      var self = this;
-      
-      var contactId = self.$route.params.driver_id;
-      console.log('Eliminando Contacto: ' + contactId);
-      api.delete('/crew_vehicles/' + contactId).then(function (response) {
-        
-        var vehicleTemp = findpost(self.post_id);
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-        console.log(JSON.stringify(error.response));
-      });
-      
-      //router.push('/post/' + self.post_id + '/edit');
-      router.push('/');
-      location.reload();
-    }
-  }
+    template: '#driver-delete',
+    data: function () {
+        return {
+            post: {
+                id: 0,
+            },
+            post_id: this.$route.params.post_id,
+            driver_id: this.$route.params.driver_id,
+        };
+    },
+    methods: {
+        deletepost: function () {
+          var self = this;
+          
+          var contactId = self.$route.params.driver_id;
+          api.delete('/crew_vehicles/' + contactId).then(function (response) {
+            var vehicleTemp = self.post_id;
+          }).catch(function (error) {
+            console.log(error.response);
+          });
+          
+          router.push('/post/' + self.post_id + '/edit');
+          //router.push('/');
+          //location.reload();
+        }
+    },
+	mounted: function(){
+   		var self = this;		
+		api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
+			params: {
+				filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+				//join: 'employee_charges,persons,crew_vehicles'
+			}
+		}).then(function (response) {
+		  self.post = response.data.records[0];
+		}).catch(function (error) {
+		  console.log(error.response);
+		});
+	}
 });
 
 var galeryVehiclesDelete = Vue.extend({
-  template: '#galery_vehicles-delete',
-  data: function () {
-    return {
-      post: findpost(this.$route.params.post_id),
-      post_id: this.$route.params.post_id,
-      galery_vehicles_id: this.$route.params.galery_vehicles_id,
-    };
-  },
-  methods: {
-    deletegalery_vehicles: function () {
-      var self = this;
-      
-      var galery_vehiclesId = self.galery_vehicles_id;
-      console.log('Eliminando Contacto: ' + galery_vehiclesId);
-      
-      api.delete('/galery_vehicles/' + galery_vehiclesId).then(function (response) {
-        
-      }).catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-      });
-      
-      router.push('/post/' + self.post_id + '/edit');
-      // router.push('/');
-      // location.reload();
-    }
-  }
+    template: '#galery_vehicles-delete',
+    data: function () {
+        return {
+            post_id: this.$route.params.post_id,
+            post: {
+                id: 0,
+            },
+            post_id: this.$route.params.post_id,
+            galery_vehicles_id: this.$route.params.galery_vehicles_id,
+        };
+    },
+    methods: {
+        deletegalery_vehicles: function () {
+          var self = this;
+          var galery_vehiclesId = self.galery_vehicles_id;          
+          api.delete('/galery_vehicles/' + galery_vehiclesId).then(function (response) {
+            
+          }).catch(function (error) {
+            console.log(error.response);
+          });
+          
+          router.push('/post/' + self.post_id + '/edit');
+          // router.push('/');
+          // location.reload();
+        }
+    },
+	mounted: function(){
+   		var self = this;		
+		api.get('/vehicles?join=galery_vehicles,employee_charges&join=crew_vehicles,employee_charges,persons', {
+			params: {
+				filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+				//join: 'employee_charges,persons,crew_vehicles'
+			}
+		}).then(function (response) {
+		  self.post = response.data.records[0];
+		}).catch(function (error) {
+		  console.log(error.response);
+		});
+	}
 });
 
 var router = new VueRouter({routes:[
