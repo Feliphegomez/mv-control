@@ -24,9 +24,9 @@
         <li>
 			<a href="#servicesSubmenu" data-toggle="collapse" aria-expanded="false"><i class="fa fa-cogs"></i> Servicios </a>
             <ul class="collapse list-unstyled" id="servicesSubmenu">
-                <li><a href="/forms/services"> <i class="fa fa-cog"></i> Servicios</a></li>
+                <li><a href="/services"> <i class="fa fa-cog"></i> Servicios</a></li>
                 <li><a href="/forms/status-services"> <i class="fa fa-eyedropper"></i> Estados</a></li>
-                <li><a href="/forms/categorys-services"> <i class="fa fa-bars"></i> Categorias</a></li>
+                <!-- // <li><a href="/forms/categorys-services"> <i class="fa fa-bars"></i> Categorias</a></li> // -->
                 <li><a href="/forms/payments-types"> <i class="fa fa-compass"></i> Unidades de Medida</a></li>
             </ul>
         </li>

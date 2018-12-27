@@ -29,7 +29,6 @@
       <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Categoria</th>
         <th>Unidad de Medida</th>
         <th>Precio</th>
         <th class="col-sm-2">Actions</th>
@@ -42,7 +41,6 @@
       <tr v-else v-for="post in filteredposts">
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.id }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.name }}</router-link></td>
-        <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.category.name }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.payment_type.name }} - {{ post.payment_type.title }}</router-link></td>
         <td><router-link v-bind:to="{name: 'post', params: {post_id: post.id}}">{{ post.price }}</router-link></td>
         <td>
@@ -80,16 +78,6 @@
                               <div class="form-group">
                                   <label class="control-label">Nombre </label>
                                   <input type="text" class="form-control" v-model="post.name" />
-                              </div>
-                          </div>
-                        
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label class="control-label">Categoria</label>
-                                  <select class="form-control" v-model="post.category">
-                                    <option value="0">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in categoriesServicesList">{{ item.name }}</option>
-                                  </select>
                               </div>
                           </div>
 
@@ -161,15 +149,6 @@
                               <div class="form-group">
                                   <label class="control-label">Nombre </label>
                                   <input type="text" class="form-control" v-model="post.name" disabled="" readonly="" />
-                              </div>
-                          </div>
-
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label class="control-label">Categoria</label>
-                                  <select class="form-control" disabled="" readonly="">
-                                    <option value="" >{{ post.category.name }}</option>
-                                  </select>
                               </div>
                           </div>
                           
@@ -244,15 +223,6 @@
                           </div>
 
                         
-                          <div class="col-md-4">
-                              <div class="form-group">
-                                  <label class="control-label">Categoria</label>
-                                  <select class="form-control" v-model="post.category.id">
-                                    <option value="0">Seleccione una opcion.</option>
-                                    <option v-bind:value="item.id" v-for="item in categoriesServicesList">{{ item.name }}</option>
-                                  </select>
-                              </div>
-                          </div>
                         
                           <div class="col-md-4">
                               <div class="form-group">

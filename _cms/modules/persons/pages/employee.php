@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container_">
   <header class="page-header">
     <div class="branding">
       <img src="https://vuejs.org/images/logo.png" alt="Logo" title="Home page" class="logo"/>
@@ -276,17 +276,17 @@
                     <div class="card-header">
                         <h4 class="card-title">
                             <i class="glyphicon glyphicon-lock text-gold"></i>
-                            <b>Informacion Empleado:</b>
+                            <b>Informacion Básica:</b>
                         </h4>
                     </div>
                     <div class="card-body">
                       <div class="row">
                           <div class="col-md-2 row">
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="control-label">Avatar</label>
-                                    <input class="form-control" type="text" v-model="post.avatar" readonly="" disabled="" />
-                                </div>
+                                  <div class="form-group" style="min-height: 350px;height:350px;">
+                                      <label class="control-label">Avatar</label>
+                                      <img width="100%" class="image image-responsive" v-bind:src="'/images/' + post.avatar" />
+                                  </div>
                             </div>
                           </div>
                           <div class="col-md-10 row">

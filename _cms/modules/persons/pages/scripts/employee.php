@@ -30,7 +30,10 @@ function findpostKey (postId) {
 var List = Vue.extend({
   template: '#post-list',
   data: function () {
-    return {posts: posts, searchKey: ''};
+    return {
+        posts: [], 
+        searchKey: ''
+    };
   },
   created: function () {
     var self = this;
@@ -50,7 +53,7 @@ var List = Vue.extend({
             ]
         }
     }).then(function (response) {
-      posts = self.posts = response.data.records;
+      self.posts = response.data.records;
     }).catch(function (error) {
       console.log(error);
     });
@@ -64,10 +67,89 @@ var List = Vue.extend({
   }
 });
 var post = Vue.extend({
-  template: '#post',
-  data: function () {
-    return {post: findpost(this.$route.params.post_id)};
-  }
+    template: '#post',
+    data: function () {
+        return {
+            post_id: this.$route.params.post_id,
+            post: {
+                id: this.$route.params.post_id,
+                identification_type: {
+                    id: this.$route.params.post_id,
+                },
+                blood_type: {
+                    id: 0,
+                },
+                blood_rh: {
+                    id: 0,
+                },
+                status: {
+                    id: 0,
+                },
+                eps: {
+                    id: 0,
+                },
+                arl: {
+                    id: 0,
+                },
+                pension_fund: {
+                    id: 0,
+                },
+                compensation_fund: {
+                    id: 0,
+                },
+                severance_fund: {
+                    id: 0,
+                },
+                reason_resignation: {
+                    id: 0,
+                },
+            },
+            identificationTypesList: [],
+            bloodTypesList: [],
+            bloodRHsList: [],
+            epsList: [],
+            arlList: [],
+            statusEmployeeList: [],
+            pensionFundsList: [],
+            compensationFundsList: [],
+            severanceFundsList: [],
+            reasonResignationList: [],
+            image_preview: {
+                name: '',
+                size: 0,
+                src: '',
+                type: '',
+            }
+        };
+    },
+	mounted: function(){
+        var self = this;
+        api.get('/persons', {
+            params: {
+                join: [
+                    'status_employee',
+                    'identification_types',
+                    'eps',
+                    'arl',
+                    'blood_types',
+                    'blood_rhs',
+                    'pension_funds',
+                    'compensation_funds',
+                    'severance_funds',
+                    'contacts_employee',
+                    'reasons_resignation',
+                ],
+                filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+            }
+        }).then(function (response) {
+          self.post = response.data.records[0];
+          console.log(self.post);
+        }).catch(function (error) {
+          console.log(error);
+        });
+    }
 });
 
 var postEdit = Vue.extend({
@@ -303,21 +385,100 @@ var postEdit = Vue.extend({
     }
 });
 var postDelete = Vue.extend({
-  template: '#post-delete',
-  data: function () {
-    return {post: findpost(this.$route.params.post_id)};
-  },
-  methods: {
-    deletepost: function () {
-      var post = this.post;
-      api.delete('/persons/'+post.id).then(function (response) {
-        console.log(response.data);
-      }).catch(function (error) {
-        console.log(error);
-      });
-      router.push('/');
+    template: '#post-delete',
+    data: function () {
+        return {
+            post_id: this.$route.params.post_id,
+            post: {
+                id: this.$route.params.post_id,
+                identification_type: {
+                    id: this.$route.params.post_id,
+                },
+                blood_type: {
+                    id: 0,
+                },
+                blood_rh: {
+                    id: 0,
+                },
+                status: {
+                    id: 0,
+                },
+                eps: {
+                    id: 0,
+                },
+                arl: {
+                    id: 0,
+                },
+                pension_fund: {
+                    id: 0,
+                },
+                compensation_fund: {
+                    id: 0,
+                },
+                severance_fund: {
+                    id: 0,
+                },
+                reason_resignation: {
+                    id: 0,
+                },
+            },
+            identificationTypesList: [],
+            bloodTypesList: [],
+            bloodRHsList: [],
+            epsList: [],
+            arlList: [],
+            statusEmployeeList: [],
+            pensionFundsList: [],
+            compensationFundsList: [],
+            severanceFundsList: [],
+            reasonResignationList: [],
+            image_preview: {
+                name: '',
+                size: 0,
+                src: '',
+                type: '',
+            }
+        };
+    },
+    methods: {
+        deletepost: function () {
+          var post = this.post;
+          api.delete('/persons/'+post.id).then(function (response) {
+            console.log(response.data);
+          }).catch(function (error) {
+            console.log(error);
+          });
+          router.push('/');
+        }
+    },
+    mounted: function(){
+        var self = this;
+        api.get('/persons', {
+            params: {
+                join: [
+                    'status_employee',
+                    'identification_types',
+                    'eps',
+                    'arl',
+                    'blood_types',
+                    'blood_rhs',
+                    'pension_funds',
+                    'compensation_funds',
+                    'severance_funds',
+                    'contacts_employee',
+                    'reasons_resignation',
+                ],
+                filter: [
+					'id,eq,' + self.$route.params.post_id
+				],
+            }
+        }).then(function (response) {
+          self.post = response.data.records[0];
+          console.log(self.post);
+        }).catch(function (error) {
+          console.log(error);
+        });
     }
-  }
 });
 var Addpost = Vue.extend({
   template: '#add-post',

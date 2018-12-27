@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container_">
   <header class="page-header">
     <div class="branding">
       <img src="https://vuejs.org/images/logo.png" alt="Logo" title="Home page" class="logo"/>
@@ -992,6 +992,28 @@
 														</td>
 													</tr>
 												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card card-default">
+								<div class="card-header">
+									<h4 class="card-title">
+										<i class="glyphicon glyphicon-lock text-gold"></i>
+										<b>SERVICIOS</b>
+									</h4>
+								</div>
+								<div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-lg-12">
+												
 											</div>
 										</div>
 									</div>
